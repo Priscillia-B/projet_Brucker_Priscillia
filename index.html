@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Inscription</title>
+    <link rel="stylesheet" href="style.css">
+</head> 
+<body>
+    <!-- Conteneur du formulaire -->
+    <div id="form-container" class="card">
+        <h2>Créer un compte</h2>
+        <div id="error-message" class="error-message"></div>
+        
+        <form id="signup-form">
+            <div class="form-group">
+                <label for="login">Login *</label>
+                <input type="text" id="login" required>
+            </div>
+            
+            <div class="form-group-row">
+                <div class="form-group">
+                    <label for="nom">Nom *</label>
+                    <input type="text" id="nom" required>
+                </div>
+                <div class="form-group">
+                    <label for="prenom">Prénom *</label>
+                    <input type="text" id="prenom" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="adresse">Adresse *</label>
+                <input type="text" id="adresse" required>
+            </div>
+
+            <div class="form-group-row">
+                <div class="form-group">
+                    <label for="email">Email *</label>
+                    <input type="email" id="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="telephone">Téléphone *</label>
+                    <input type="tel" id="telephone" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="date_naissance">Date de naissance *</label>
+                <input type="date" id="date_naissance" required>
+            </div>
+
+            <div class="form-group-row">
+                <div class="form-group">
+                    <label for="password">Mot de passe *</label>
+                    <input type="password" id="password" required>
+                </div>
+                <div class="form-group">
+                    <label for="password_confirm">Confirmer mot de passe *</label>
+                    <input type="password" id="password_confirm" required>
+                </div>
+            </div>
+
+            <button type="submit">S'inscrire</button>
+        </form>
+    </div>
+
+    <!-- Conteneur du récapitulatif -->
+    <div id="summary-container" class="card hidden">
+        <h2>Récapitulatif de votre inscription</h2>
+        <p>Merci pour votre inscription ! Voici les informations saisies :</p>
+        <ul id="summary-list" class="summary-list">
+            <li><strong>Login :</strong> <span id="sum-login"></span></li>
+            <li><strong>Nom :</strong> <span id="sum-nom"></span></li>
+            <li><strong>Prénom :</strong> <span id="sum-prenom"></span></li>
+            <li><strong>Adresse :</strong> <span id="sum-adresse"></span></li>
+            <li><strong>Email :</strong> <span id="sum-email"></span></li>
+            <li><strong>Téléphone :</strong> <span id="sum-telephone"></span></li>
+            <li><strong>Date de naissance :</strong> <span id="sum-date"></span></li>
+        </ul>
+        <button type="button" id="btn-retour" class="btn-secondary">Recréer un nouveau compte</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
