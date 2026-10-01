@@ -1,0 +1,133 @@
+<div class="signup-wrapper">
+  <!-- Page récapitulative -->
+  @if (isSubmitted) {
+    <div class="signup-card summary-card">
+      <div class="success-icon"></div>
+      <h2>Inscription réussie !</h2>
+      <p class="subtitle">Voici les informations enregistrées :</p>
+
+      <div class="summary-details">
+        <div class="detail-item">
+          <span class="label">Login :</span>
+          <span class="value">{{ user.login }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Nom complet :</span>
+          <span class="value">{{ user.prenom }} {{ user.nom }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Email :</span>
+          <span class="value">{{ user.email }}</span>
+        </div>
+      </div>
+
+      <button type="button" class="btn-secondary" (click)="resetForm()">Recommencer</button>
+    </div>
+  } @else {
+    <!-- Formulaire d'inscription -->
+    <div class="signup-card">
+      <h2>Créer un compte</h2>
+
+      <form #signupForm="ngForm" (ngSubmit)="onSubmit(signupForm)">
+        <!-- Login -->
+        <div class="form-group">
+          <label for="login">Login</label>
+          <input
+            type="text"
+            id="login"
+            name="login"
+            [(ngModel)]="user.login"
+            #loginCtrl="ngModel"
+            required
+            placeholder="Votre identifiant"
+          />
+          @if (loginCtrl.invalid && loginCtrl.touched) {
+            <span class="error-text">Le login est requis.</span>
+          }
+        </div>
+
+        <!-- Prénom & Nom -->
+        <div class="form-row">
+          <div class="form-group">
+            <label for="prenom">Prénom</label>
+            <input
+              type="text"
+              id="prenom"
+              name="prenom"
+              [(ngModel)]="user.prenom"
+              #prenomCtrl="ngModel"
+              required
+              placeholder="Jean"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="nom">Nom</label>
+            <input
+              type="text"
+              id="nom"
+              name="nom"
+              [(ngModel)]="user.nom"
+              #nomCtrl="ngModel"
+              required
+              placeholder="Dupont"
+            />
+          </div>
+        </div>
+
+        <!-- Email -->
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            [(ngModel)]="user.email"
+            #emailCtrl="ngModel"
+            required
+            email
+            placeholder="jean.dupont@email.com"
+          />
+          @if (emailCtrl.invalid && emailCtrl.touched) {
+            <span class="error-text">Un email valide est requis.</span>
+          }
+        </div>
+
+        <!-- Mot de passe -->
+        <div class="form-group">
+          <label for="password">Mot de passe</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            [(ngModel)]="user.password"
+            #pwdCtrl="ngModel"
+            required
+            placeholder="••••••••"
+          />
+        </div>
+
+        <!-- Confirmation Mot de passe -->
+        <div class="form-group">
+          <label for="confirmPassword">Confirmation du mot de passe</label>
+          <input
+            type="password"
+            id="confirmPassword"
+            name="confirmPassword"
+            [(ngModel)]="user.confirmPassword"
+            #confirmPwdCtrl="ngModel"
+            required
+            placeholder="••••••••"
+          />
+
+          <!-- Message d'erreur si les mots de passe ne correspondent pas -->
+          @if (confirmPwdCtrl.touched && user.password !== user.confirmPassword) {
+            <span class="error-text">Les mots de passe ne correspondent pas.</span>
+          }
+        </div>
+
+        <button type="submit" [disabled]="!signupForm.valid">S'inscrire</button>
+      </form>
+    </div>
+  }
+</div>

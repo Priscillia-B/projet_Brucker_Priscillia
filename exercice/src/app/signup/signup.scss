@@ -1,0 +1,157 @@
+.signup-wrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #f0f4ff 0%, #e0e7ff 100%);
+  padding: 2rem;
+  font-family: 'Inter', 'Segoe UI', Roboto, sans-serif;
+}
+
+.signup-card {
+  background: #ffffff;
+  padding: 2.5rem;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(30, 58, 138, 0.08);
+  width: 100%;
+  max-width: 480px;
+
+  h2 {
+    color: #1e3a8a;
+    margin-top: 0;
+    margin-bottom: 2rem;
+    text-align: center;
+    font-size: 1.75rem;
+    font-weight: 700;
+  }
+}
+
+// Styles spécifiques pour la page récapitulative
+.summary-card {
+  text-align: center;
+
+  .success-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
+
+  .subtitle {
+    color: #64748b;
+    margin-bottom: 1.5rem;
+    font-size: 0.95rem;
+  }
+
+  .summary-details {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 1.25rem;
+    text-align: left;
+    margin-bottom: 1.5rem;
+
+    .detail-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid #edf2f7;
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      .label {
+        font-weight: 600;
+        color: #475569;
+        font-size: 0.9rem;
+      }
+
+      .value {
+        color: #1e293b;
+        font-size: 0.9rem;
+      }
+    }
+  }
+
+  .btn-secondary {
+    background-color: #e0e7ff;
+    color: #1e40af;
+    
+    &:hover {
+      background-color: #c7d2fe;
+    }
+  }
+}
+
+.form-group {
+  margin-bottom: 1.25rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-row {
+  display: flex;
+  gap: 1rem;
+  
+  .form-group {
+    flex: 1;
+  }
+}
+
+label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #475569;
+  margin-bottom: 0.5rem;
+}
+
+input {
+  padding: 0.75rem 1rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  color: #1e293b;
+  background-color: #f8fafc;
+  outline: none;
+  transition: all 0.2s ease-in-out;
+
+  &::placeholder {
+    color: #94a3b8;
+  }
+
+  &:focus {
+    border-color: #3b82f6;
+    background-color: #ffffff;
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
+  }
+}
+
+.error-text {
+  color: #ef4444;
+  font-size: 0.8rem;
+  margin-top: 0.4rem;
+  font-weight: 500;
+}
+
+button {
+  width: 100%;
+  padding: 0.875rem;
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 1.5rem;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  
+  &:hover:not(:disabled) {
+    background-color: #1d4ed8;
+    transform: translateY(-1px);
+  }
+
+  &:disabled {
+    background-color: #93c5fd;
+    cursor: not-allowed;
+  }
+}
