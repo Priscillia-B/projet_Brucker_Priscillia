@@ -96,31 +96,30 @@
         <!-- Mot de passe -->
         <div class="form-group">
           <label for="password">Mot de passe</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            [(ngModel)]="user.password"
-            #pwdCtrl="ngModel"
-            required
-            placeholder="••••••••"
-          />
+          <input type="password" id="password" name="password" [(ngModel)]="user.password" #pwdCtrl="ngModel" 
+                 required 
+                 minlength="6" 
+                 pattern=".*[0-9].*" 
+                 placeholder="••••••••">
+                 
+          @if (pwdCtrl.invalid && pwdCtrl.touched) {
+            @if (pwdCtrl.errors?.['required']) {
+              <span class="error-text">Le mot de passe est requis.</span>
+            }
+            @if (pwdCtrl.errors?.['minlength']) {
+              <span class="error-text">Minimum 6 caractères.</span>
+            }
+            @if (pwdCtrl.errors?.['pattern'] && !pwdCtrl.errors?.['minlength']) {
+              <span class="error-text">Le mot de passe doit contenir au moins un chiffre.</span>
+            }
+          }
         </div>
 
         <!-- Confirmation Mot de passe -->
         <div class="form-group">
           <label for="confirmPassword">Confirmation du mot de passe</label>
-          <input
-            type="password"
-            id="confirmPassword"
-            name="confirmPassword"
-            [(ngModel)]="user.confirmPassword"
-            #confirmPwdCtrl="ngModel"
-            required
-            placeholder="••••••••"
-          />
-
-          <!-- Message d'erreur si les mots de passe ne correspondent pas -->
+          <input type="password" id="confirmPassword" name="confirmPassword" [(ngModel)]="user.confirmPassword" #confirmPwdCtrl="ngModel" required placeholder="••••••••">
+          
           @if (confirmPwdCtrl.touched && user.password !== user.confirmPassword) {
             <span class="error-text">Les mots de passe ne correspondent pas.</span>
           }
