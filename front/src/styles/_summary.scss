@@ -1,0 +1,91 @@
+/* ============ Récapitulatif ============ */
+.summary-card {
+  text-align: left;
+
+  .summary-eyebrow {
+    display: block;
+    margin-bottom: 0.9rem;
+    text-align: center;
+    font-size: 0.85rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--primary);
+
+    // petit trait de couleur sous le statut
+    &::after {
+      content: '';
+      display: block;
+      width: 44px;
+      height: 3px;
+      margin: 0.6rem auto 0;
+      border-radius: 3px;
+      background: var(--primary);
+    }
+  }
+
+  .summary-title {
+    margin: 0 0 0.5rem;
+    text-align: center;
+    font-size: 1.8rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+  }
+
+  .subtitle {
+    margin: 0 0 1.75rem;
+    text-align: center;
+    font-size: 0.95rem;
+    color: var(--muted);
+  }
+
+  .summary-list {
+    margin: 0 0 1.5rem;
+    border-top: 1px solid var(--border-soft);
+
+    .row {
+      display: grid;
+      grid-template-columns: 110px 1fr;
+      gap: 1rem;
+      padding: 0.8rem 0;
+      border-bottom: 1px solid var(--border-soft);
+    }
+
+    dt {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--muted);
+    }
+
+    dd {
+      margin: 0;
+      font-weight: 500;
+      color: var(--ink);
+      overflow-wrap: anywhere;
+      white-space: pre-line;
+    }
+  }
+
+  .summary-photo {
+    margin-bottom: 1.5rem;
+    padding: 0.5rem;
+    background: var(--surface-alt);
+    border: 1px solid var(--border-soft);
+    border-radius: 10px;
+
+    img {
+      display: block;
+      width: 100%;
+      height: auto;
+      max-height: 420px;
+      object-fit: contain;
+      border-radius: 6px;
+    }
+  }
+}
+
+/* ============ Responsive ============ */
+@media (max-width: 560px) {
+  .summary-card .summary-list .row { grid-template-columns: 1fr; gap: 0.15rem; }
+}

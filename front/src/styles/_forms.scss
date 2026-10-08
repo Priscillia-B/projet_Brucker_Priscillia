@@ -1,0 +1,64 @@
+/* ============ Champs ============ */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.4rem;
+}
+
+.form-row {
+  display: flex;
+  gap: 1.25rem;
+  .form-group { flex: 1; min-width: 0; }
+}
+
+label {
+  margin-bottom: 0.55rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--muted);
+  .required { color: var(--danger); }
+}
+
+input, select, textarea {
+  width: 100%;
+  padding: 0.85rem 1.1rem;
+  font: inherit;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--ink);
+  background-color: var(--surface-alt);
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  outline: none;
+  transition: all 0.2s ease-in-out;
+
+  &::placeholder { color: #8fb0ab; font-weight: 400; }
+  &:hover { border-color: #7fb0a8; }
+
+  &:focus {
+    border-color: var(--primary);
+    background-color: #fff;
+    box-shadow: 0 0 0 4px rgba(15, 118, 110, 0.15);
+  }
+
+  // champ invalide ET déjà touché (classes ajoutées par Angular)
+  &.ng-invalid.ng-touched {
+    border-color: var(--danger);
+    background-color: #fff5f5;
+    &:focus { box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.15); }
+  }
+}
+
+textarea { resize: vertical; min-height: 90px; }
+
+.error-text {
+  margin-top: 0.45rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--danger);
+}
+
+/* ============ Responsive ============ */
+@media (max-width: 560px) {
+  .form-row { flex-direction: column; gap: 0; }
+}

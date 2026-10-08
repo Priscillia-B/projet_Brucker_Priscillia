@@ -1,0 +1,164 @@
+<div class="form-wrapper">
+  @if (isSubmitted) {
+    <div class="form-card">
+      <div class="summary-card">
+        <span class="summary-eyebrow">Compte créé</span>
+        <h2 class="summary-title">Inscription réussie</h2>
+        <p class="subtitle">Bienvenue sur EcoTrack, votre compte est prêt.</p>
+
+        <dl class="summary-list">
+          <div class="row">
+            <dt>Login</dt>
+            <dd>{{ user.login }}</dd>
+          </div>
+          <div class="row">
+            <dt>Nom</dt>
+            <dd>{{ user.prenom }} {{ user.nom }}</dd>
+          </div>
+          <div class="row">
+            <dt>Email</dt>
+            <dd>{{ user.email }}</dd>
+          </div>
+        </dl>
+
+        <button type="button" class="btn-secondary" (click)="resetForm()">
+          Créer un autre compte
+        </button>
+      </div>
+    </div>
+  } @else {
+    <div class="form-card">
+      <div class="card-badge" aria-hidden="true">🌱</div>
+      <h2>Créer un compte</h2>
+
+      <form #signupForm="ngForm" (ngSubmit)="onSubmit(signupForm)" novalidate>
+        <div class="form-group">
+          <label for="login">Login <span class="required">*</span></label>
+          <input
+            type="text"
+            id="login"
+            name="login"
+            [(ngModel)]="user.login"
+            #loginCtrl="ngModel"
+            required
+            placeholder="Votre identifiant"
+          />
+          @if (loginCtrl.invalid && loginCtrl.touched) {
+            <span class="error-text">Le login est requis.</span>
+          }
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="prenom">Prénom <span class="required">*</span></label>
+            <input
+              type="text"
+              id="prenom"
+              name="prenom"
+              [(ngModel)]="user.prenom"
+              #prenomCtrl="ngModel"
+              required
+              placeholder="Jean"
+            />
+            @if (prenomCtrl.invalid && prenomCtrl.touched) {
+              <span class="error-text">Le prénom est requis.</span>
+            }
+          </div>
+
+          <div class="form-group">
+            <label for="nom">Nom <span class="required">*</span></label>
+            <input
+              type="text"
+              id="nom"
+              name="nom"
+              [(ngModel)]="user.nom"
+              #nomCtrl="ngModel"
+              required
+              placeholder="Dupont"
+            />
+            @if (nomCtrl.invalid && nomCtrl.touched) {
+              <span class="error-text">Le nom est requis.</span>
+            }
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email <span class="required">*</span></label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            [(ngModel)]="user.email"
+            #emailCtrl="ngModel"
+            required
+            email
+            placeholder="jean.dupont@email.com"
+          />
+          @if (emailCtrl.invalid && emailCtrl.touched) {
+            @if (emailCtrl.errors?.['required']) {
+              <span class="error-text">L'email est requis.</span>
+            } @else {
+              <span class="error-text">Format invalide (ex : jean.dupont&#64;email.com).</span>
+            }
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="password">Mot de passe <span class="required">*</span></label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            [(ngModel)]="user.password"
+            #pwdCtrl="ngModel"
+            required
+            minlength="6"
+            pattern=".*[0-9].*"
+            placeholder="••••••••"
+          />
+          @if (pwdCtrl.invalid && pwdCtrl.touched) {
+            @if (pwdCtrl.errors?.['required']) {
+              <span class="error-text">Le mot de passe est requis.</span>
+            } @else {
+              @if (pwdCtrl.errors?.['minlength']) {
+                <span class="error-text">
+                  Minimum 6 caractères ({{ pwdCtrl.errors?.['minlength'].actualLength }}/6).
+                </span>
+              }
+              @if (pwdCtrl.errors?.['pattern']) {
+                <span class="error-text">Doit contenir au moins un chiffre.</span>
+              }
+            }
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="confirmPassword"
+            >Confirmation du mot de passe <span class="required">*</span></label
+          >
+          <input
+            type="password"
+            id="confirmPassword"
+            name="confirmPassword"
+            [(ngModel)]="user.confirmPassword"
+            #confirmPwdCtrl="ngModel"
+            required
+            placeholder="••••••••"
+          />
+          @if (confirmPwdCtrl.touched && confirmPwdCtrl.errors?.['required']) {
+            <span class="error-text">La confirmation est requise.</span>
+          } @else if (confirmPwdCtrl.touched && user.password !== user.confirmPassword) {
+            <span class="error-text">Les mots de passe ne correspondent pas.</span>
+          }
+        </div>
+
+        <button
+          type="submit"
+          [disabled]="!signupForm.valid || user.password !== user.confirmPassword"
+        >
+          S'inscrire
+        </button>
+      </form>
+    </div>
+  }
+</div>
