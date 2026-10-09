@@ -8,7 +8,7 @@ import { Pollution } from '../../models/pollution';
 
 /** La date doit être valide et ne pas être dans le futur. */
 function validObservationDate(control: AbstractControl): ValidationErrors | null {
-  if (!control.value) return null; // "required" s'en charge
+  if (!control.value) return null; 
   const date = new Date(control.value);
   if (isNaN(date.getTime())) return { invalidDate: true };
   return date > new Date() ? { futureDate: true } : null;
