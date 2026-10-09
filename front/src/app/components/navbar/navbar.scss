@@ -1,0 +1,94 @@
+.glass-navbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  height: var(--nav-h);
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  padding: 0 2rem;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(14px) saturate(1.4);
+  border-bottom: 1px solid var(--border);
+  box-shadow: 0 6px 20px rgba(15, 118, 110, 0.1);
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-weight: 800;
+  font-size: 1.2rem;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+
+  .logo-icon {
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    font-size: 1.1rem;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--primary), #14b8a6);
+    box-shadow: 0 4px 10px rgba(15, 118, 110, 0.3);
+  }
+
+  em {
+    font-style: normal;
+    color: var(--primary);
+  }
+}
+
+.nav-links {
+  display: flex;
+  gap: 0.25rem;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li { display: flex; }
+
+  a {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s ease;
+
+    // trait qui se pose sur la ligne du bas
+    &::after {
+      content: '';
+      position: absolute;
+      left: 1rem;
+      right: 1rem;
+      bottom: -1px;
+      height: 3px;
+      border-radius: 3px 3px 0 0;
+      background: var(--primary);
+      transform: scaleX(0);
+      transition: transform 0.25s ease;
+    }
+
+    &:hover {
+      color: var(--primary);
+      &::after { transform: scaleX(0.4); }
+    }
+
+    &.active-link {
+      color: var(--primary);
+      &::after { transform: scaleX(1); }
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .glass-navbar { padding: 0 0.75rem; }
+  .logo-text { display: none; }
+  .nav-links a { padding: 0 0.6rem; font-size: 0.85rem; }
+  .nav-links a::after { left: 0.6rem; right: 0.6rem; }
+}
