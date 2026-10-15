@@ -1,5 +1,5 @@
 <div class="form-wrapper">
-  @if (isSubmitted) {
+  @if (isSubmitted()) {
     <div class="form-card">
       <div class="summary-card">
         <span class="summary-eyebrow">Compte créé</span>
@@ -152,11 +152,14 @@
           }
         </div>
 
+        @if (errorMessage()) {
+          <p class="error-banner">{{ errorMessage() }}</p>
+        }
         <button
           type="submit"
-          [disabled]="!signupForm.valid || user.password !== user.confirmPassword"
+          [disabled]="!signupForm.valid || user.password !== user.confirmPassword || isLoading()"
         >
-          S'inscrire
+          {{ isLoading() ? 'Inscription…' : "S'inscrire" }}
         </button>
       </form>
     </div>

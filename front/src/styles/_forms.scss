@@ -58,6 +58,17 @@ textarea { resize: vertical; min-height: 90px; }
   color: var(--danger);
 }
 
+.error-banner {
+  margin: 1rem 0 0;
+  padding: 0.75rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--danger);
+  background-color: #fff5f5;
+  border: 2px solid var(--danger);
+  border-radius: 10px;
+}
+
 /* ============ Responsive ============ */
 @media (max-width: 560px) {
   .form-row { flex-direction: column; gap: 0; }
