@@ -1,0 +1,42 @@
+/* ============ Boutons ============ */
+.form-card button {
+  width: 100%;
+  margin-top: 1.25rem;
+  padding: 1rem;
+  font: inherit;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #fff;
+  background-color: var(--primary);
+  border: 2px solid var(--primary);
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(15, 118, 110, 0.25);
+  transition: all 0.2s ease;
+
+  &:hover:not(:disabled) {
+    background-color: var(--primary-dark);
+    border-color: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(15, 118, 110, 0.35);
+  }
+
+  &:disabled {
+    background-color: #99d3cb;
+    border-color: #99d3cb;
+    box-shadow: none;
+    cursor: not-allowed;
+  }
+
+  &.btn-secondary {
+    color: var(--primary-dark);
+    background-color: var(--primary-light);
+    border-color: #99f6e4;
+    box-shadow: none;
+
+    &:hover:not(:disabled) {
+      background-color: #99f6e4;
+      border-color: #5eead4;
+    }
+  }
+}

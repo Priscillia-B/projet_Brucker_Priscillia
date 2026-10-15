@@ -1,0 +1,152 @@
+<div class="form-wrapper">
+  <div class="form-card form-card--wide">
+    @if (!isSubmitted) {
+      <div class="card-badge" aria-hidden="true">🌍</div>
+      <h2>Déclarer une pollution</h2>
+
+      <form [formGroup]="declarationForm" (ngSubmit)="onSubmit()" novalidate>
+        <div class="form-group">
+          <label for="titre">Titre de la pollution <span class="required">*</span></label>
+          <input
+            id="titre"
+            type="text"
+            formControlName="titre"
+            placeholder="Ex: Déchets plastiques sur la plage"
+          />
+          @if (declarationForm.controls.titre.invalid && declarationForm.controls.titre.touched) {
+            <span class="error-text">Le titre est requis.</span>
+          }
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="type">Type de pollution <span class="required">*</span></label>
+            <select id="type" formControlName="type">
+              <option value="" disabled>Sélectionnez un type</option>
+              @for (t of typesPollution; track t) {
+                <option [value]="t">{{ t }}</option>
+              }
+            </select>
+            @if (declarationForm.controls.type.invalid && declarationForm.controls.type.touched) {
+              <span class="error-text">Le type est requis.</span>
+            }
+          </div>
+
+          <div class="form-group">
+            <label for="date">Date d'observation <span class="required">*</span></label>
+            <input id="date" type="date" formControlName="date" [max]="today" />
+            @if (declarationForm.controls.date.invalid && declarationForm.controls.date.touched) {
+              @if (declarationForm.controls.date.errors?.['required']) {
+                <span class="error-text">La date est requise.</span>
+              } @else if (declarationForm.controls.date.errors?.['futureDate']) {
+                <span class="error-text">La date ne peut pas être dans le futur.</span>
+              } @else {
+                <span class="error-text">Date invalide.</span>
+              }
+            }
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="lieu">Lieu de l'observation <span class="required">*</span></label>
+          <input
+            id="lieu"
+            type="text"
+            formControlName="lieu"
+            placeholder="Ex: Plage du Prado, Marseille"
+          />
+          @if (declarationForm.controls.lieu.invalid && declarationForm.controls.lieu.touched) {
+            <span class="error-text">Le lieu est requis.</span>
+          }
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="latitude">Latitude <span class="required">*</span></label>
+            <input
+              id="latitude"
+              type="number"
+              step="any"
+              formControlName="latitude"
+              placeholder="Ex: 43.2767"
+            />
+            @if (
+              declarationForm.controls.latitude.invalid && declarationForm.controls.latitude.touched
+            ) {
+              @if (declarationForm.controls.latitude.errors?.['required']) {
+                <span class="error-text">La latitude est requise.</span>
+              } @else {
+                <span class="error-text">
+                  La latitude doit être comprise entre -90 et 90 (saisi :
+                  {{ declarationForm.controls.latitude.value }}).
+                </span>
+              }
+            }
+          </div>
+
+          <div class="form-group">
+            <label for="longitude">Longitude <span class="required">*</span></label>
+            <input
+              id="longitude"
+              type="number"
+              step="any"
+              formControlName="longitude"
+              placeholder="Ex: 5.3725"
+            />
+            @if (
+              declarationForm.controls.longitude.invalid &&
+              declarationForm.controls.longitude.touched
+            ) {
+              @if (declarationForm.controls.longitude.errors?.['required']) {
+                <span class="error-text">La longitude est requise.</span>
+              } @else {
+                <span class="error-text">
+                  La longitude doit être comprise entre -180 et 180 (saisi :
+                  {{ declarationForm.controls.longitude.value }}).
+                </span>
+              }
+            }
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="description">Description <span class="required">*</span></label>
+          <textarea
+            id="description"
+            formControlName="description"
+            rows="3"
+            placeholder="Décrivez la pollution observée..."
+          ></textarea>
+          @if (
+            declarationForm.controls.description.invalid &&
+            declarationForm.controls.description.touched
+          ) {
+            <span class="error-text">La description est requise.</span>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="photoUrl">Photo (URL) - Optionnel</label>
+          <input
+            id="photoUrl"
+            type="text"
+            formControlName="photoUrl"
+            placeholder="https://exemple.com/photo.jpg"
+          />
+          @if (
+            declarationForm.controls.photoUrl.invalid && declarationForm.controls.photoUrl.touched
+          ) {
+            <span class="error-text">L'URL doit commencer par http:// ou https://.</span>
+          }
+        </div>
+
+        <button type="submit" [disabled]="declarationForm.invalid">Déclarer la pollution</button>
+      </form>
+    } @else {
+      <app-report-summary
+        [pollution]="pollutionData"
+        (newReport)="newReport()"
+      ></app-report-summary>
+    }
+  </div>
+</div>

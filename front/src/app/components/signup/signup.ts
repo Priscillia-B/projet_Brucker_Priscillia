@@ -1,25 +1,16 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-signup',
   standalone: true,
-  imports: [CommonModule, FormsModule],
-  templateUrl: './signup.html',
-  styleUrl: './signup.scss'
+  imports: [FormsModule],
+  templateUrl: './signup.html'
 })
 export class SignupComponent {
   isSubmitted = false;
 
-  user = {
-    login: '',
-    prenom: '',
-    nom: '',
-    email: '',
-    password: '',
-    confirmPassword: ''
-  };
+  user = this.emptyUser();
 
   onSubmit(form: NgForm) {
     if (form.valid && this.user.password === this.user.confirmPassword) {
@@ -29,13 +20,10 @@ export class SignupComponent {
 
   resetForm() {
     this.isSubmitted = false;
-    this.user = {
-      login: '',
-      prenom: '',
-      nom: '',
-      email: '',
-      password: '',
-      confirmPassword: ''
-    };
+    this.user = this.emptyUser();
+  }
+
+  private emptyUser() {
+    return { login: '', prenom: '', nom: '', email: '', password: '', confirmPassword: '' };
   }
 }
