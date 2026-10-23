@@ -1,8 +1,10 @@
-import Swal from 'sweetalert2';
+// SweetAlert est chargé seulement au premier affichage d'une fenêtre
+const loadSwal = async () => (await import('sweetalert2')).default;
 
 const buttonClasses = { confirmButton: 'swal-btn', cancelButton: 'swal-btn swal-btn--cancel' };
 
 export async function confirmDelete(): Promise<boolean> {
+  const Swal = await loadSwal();
   const result = await Swal.fire({
     title: 'Supprimer cette pollution ?',
     text: 'Cette action est définitive.',
@@ -17,8 +19,9 @@ export async function confirmDelete(): Promise<boolean> {
   return result.isConfirmed;
 }
 
-export function showError(message: string): void {
-  void Swal.fire({
+export async function showError(message: string): Promise<void> {
+  const Swal = await loadSwal();
+  await Swal.fire({
     title: 'Erreur',
     text: message,
     icon: 'error',

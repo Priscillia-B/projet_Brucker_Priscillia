@@ -39,7 +39,7 @@ export class PollutionDetailComponent implements OnInit {
 
     this.pollutionService.deletePollution(id).subscribe({
       next: () => void this.router.navigate(['/pollutions']),
-      error: () => showError('La suppression a échoué.')
+      error: () => void showError('La suppression a échoué.')
     });
   }
 }

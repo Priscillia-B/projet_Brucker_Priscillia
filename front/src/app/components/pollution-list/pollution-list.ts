@@ -91,7 +91,7 @@ export class PollutionListComponent implements OnInit {
 
     this.pollutionService.deletePollution(id).subscribe({
       next: () => this.pollutions.update(list => list.filter(p => p.id !== id)),
-      error: () => showError('La suppression a échoué.')
+      error: () => void showError('La suppression a échoué.')
     });
   }
 }
