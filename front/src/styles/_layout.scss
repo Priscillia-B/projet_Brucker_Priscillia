@@ -2,6 +2,7 @@ $landscape: url('/images/landscape.svg'); // fichier dans public/images/
 
 /* ============ Page (fond commun à toutes les pages) ============ */
 .form-wrapper {
+  position: relative;
   min-height: calc(100vh - var(--nav-h));
   display: flex;
   align-items: center;
@@ -12,6 +13,53 @@ $landscape: url('/images/landscape.svg'); // fichier dans public/images/
     radial-gradient(circle at 85% 10%, var(--glow-sun), transparent 30%),
     radial-gradient(circle at 10% 20%, var(--glow-leaf), transparent 35%),
     linear-gradient(180deg, var(--bg) 0%, var(--primary-light) 100%);
+  overflow: hidden;   
+  isolation: isolate; 
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    border-radius: 30px;
+    background: var(--glass-bg);
+    border: 2px solid var(--glass-border);
+    box-shadow: var(--shadow-sm);
+  }
+
+  &::before {
+    width: 380px;
+    height: 380px;
+    top: -110px;
+    left: -120px;
+    transform: rotate(-15deg);
+    animation: float-a 14s ease-in-out infinite;
+  }
+
+  &::after {
+    width: 460px;
+    height: 460px;
+    top: 8%;
+    right: -170px;
+    transform: rotate(22deg);
+    animation: float-b 18s ease-in-out infinite;
+  }
+}
+
+@keyframes float-a {
+  0%, 100% { transform: rotate(-15deg) translateY(0); }
+  50%      { transform: rotate(-9deg) translateY(18px); }
+}
+
+@keyframes float-b {
+  0%, 100% { transform: rotate(22deg) translateY(0); }
+  50%      { transform: rotate(16deg) translateY(-22px); }
+}
+
+// Pas d'animation si l'utilisateur a demandé à réduire les mouvements
+@media (prefers-reduced-motion: reduce) {
+  .form-wrapper::before,
+  .form-wrapper::after { animation: none; }
 }
 
 /* ============ Carte ============ */
