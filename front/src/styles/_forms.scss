@@ -27,25 +27,24 @@ input, select, textarea {
   font-weight: 500;
   color: var(--ink);
   background-color: var(--surface-alt);
-  border: 2px solid var(--border);
-  border-radius: 10px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
   outline: none;
   transition: all 0.2s ease-in-out;
 
-  &::placeholder { color: #8fb0ab; font-weight: 400; }
-  &:hover { border-color: #7fb0a8; }
+  &::placeholder { color: var(--placeholder); font-weight: 400; }
+  &:hover { border-color: var(--accent); }
 
   &:focus {
     border-color: var(--primary);
-    background-color: #fff;
-    box-shadow: 0 0 0 4px rgba(15, 118, 110, 0.15);
+    background-color: var(--surface);
+    box-shadow: var(--focus-ring);
   }
 
-  // champ invalide ET déjà touché (classes ajoutées par Angular)
   &.ng-invalid.ng-touched {
     border-color: var(--danger);
-    background-color: #fff5f5;
-    &:focus { box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.15); }
+    background-color: var(--danger-light);
+    &:focus { box-shadow: var(--focus-ring-danger); }
   }
 }
 
@@ -64,9 +63,84 @@ textarea { resize: vertical; min-height: 90px; }
   font-size: 0.9rem;
   font-weight: 600;
   color: var(--danger);
-  background-color: #fff5f5;
-  border: 2px solid var(--danger);
-  border-radius: 10px;
+  background-color: var(--danger-light);
+  border: 2px solid var(--danger-soft);
+  border-radius: var(--radius);
+}
+
+/* ============ Structure des formulaires ============ */
+.form-intro {
+  margin: -1.25rem 0 2rem;
+  text-align: center;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+.form-section {
+  margin: 0 0 1.75rem;
+  padding: 0;
+  border: none;
+
+  > :last-child { margin-bottom: 0; }
+  > .form-row:last-child .form-group { margin-bottom: 0; }
+
+  &__title {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    width: 100%;
+    margin-bottom: 1.1rem;
+    padding: 0;
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--primary);
+
+    i {
+      display: grid;
+      place-items: center;
+      width: 28px;
+      height: 28px;
+      font-size: 0.8rem;
+      border-radius: 50%;
+      background: var(--primary-light);
+    }
+
+    &::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border-soft);
+    }
+  }
+}
+
+.form-row + .form-hint { margin-top: -0.75rem; }
+
+.form-hint {
+  margin-top: 0.4rem;
+  font-size: 0.8rem;
+  color: var(--muted);
+
+  i { margin-right: 0.3rem; color: var(--accent); }
+}
+
+.photo-preview {
+  margin-top: 0.75rem;
+  padding: 0.4rem;
+  background: var(--surface-alt);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius);
+
+  img {
+    display: block;
+    width: 100%;
+    max-height: 220px;
+    object-fit: cover;
+    border-radius: 8px;
+  }
 }
 
 /* ============ Responsive ============ */

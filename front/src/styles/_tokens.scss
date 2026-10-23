@@ -1,16 +1,41 @@
 /* ============ Design tokens ============ */
 :root {
   --nav-h: 64px;
+  --radius: 12px;
+  --radius-lg: 20px;
 
-  --ink: #0b2e2b;
-  --muted: #4b6b68;
-  --border: #b7d4cf;
-  --border-soft: #d9ebe7;
+  --ink: #1b2e24;
+  --muted: #56695d;
+  --placeholder: #93a69a;
+  --bg: #f3f6ee;
   --surface: #ffffff;
-  --surface-alt: #f2faf8;
+  --surface-alt: #f6f9f3;
+  --border: #c8d9cc;
+  --border-soft: #e2ece3;
 
-  --primary: #0f766e;
-  --primary-dark: #115e59;
-  --primary-light: #ccfbf1;
-  --danger: #dc2626;
+  /* Vert principal */
+  --primary: #2d6a4f;
+  --primary-dark: #1b4332;
+  --primary-light: #e3f4e6;
+  --primary-soft: #b7e4c7;
+  --primary-disabled: #a8c9b5;
+  --accent: #52b788;
+
+  /* Rouge */
+  --danger: #c0392b;
+  --danger-dark: #962d22;
+  --danger-light: #fdf1ef;
+  --danger-soft: #f5c6c0;
+
+  --shadow-sm: 0 2px 8px rgba(27, 67, 50, 0.06);
+  --shadow-md: 0 10px 24px rgba(27, 67, 50, 0.12);
+  --shadow-lg: 0 24px 48px rgba(27, 67, 50, 0.14);
+  --focus-ring: 0 0 0 4px rgba(82, 183, 136, 0.25);
+  --focus-ring-danger: 0 0 0 4px rgba(192, 57, 43, 0.15);
+
+  --glow-sun: rgba(244, 201, 93, 0.18);
+  --glow-leaf: rgba(82, 183, 136, 0.16);
+
+  --glass-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.1));
+  --glass-border: rgba(255, 255, 255, 0.95);
 }

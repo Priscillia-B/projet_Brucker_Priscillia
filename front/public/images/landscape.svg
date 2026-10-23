@@ -1,0 +1,25 @@
+<!-- Paysage décoratif affiché en bas des pages (soleil, collines, usine qui fume, sapins) -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 260" preserveAspectRatio="xMidYMax meet">
+  <!-- Soleil -->
+  <circle cx="1230" cy="70" r="46" fill="#f4c95d" opacity=".25"/>
+  <circle cx="1230" cy="70" r="28" fill="#f4c95d" opacity=".85"/>
+
+  <!-- Collines (arrière-plan puis premier plan) -->
+  <path d="M0 150 Q240 80 520 140 T1040 120 T1440 140 V260 H0Z" fill="#b7e4c7" opacity=".55"/>
+  <path d="M0 205 Q300 145 620 198 T1440 178 V260 H0Z" fill="#2d6a4f" opacity=".95"/>
+
+  <!-- Usine et cheminées -->
+  <rect x="90" y="160" width="130" height="60" fill="#1b2e24"/>
+  <rect x="110" y="112" width="18" height="50" fill="#1b2e24"/>
+  <rect x="160" y="132" width="18" height="30" fill="#1b2e24"/>
+
+  <!-- Fumée -->
+  <circle cx="119" cy="98" r="11" fill="#fff" opacity=".55"/>
+  <circle cx="132" cy="80" r="16" fill="#fff" opacity=".4"/>
+  <circle cx="152" cy="56" r="22" fill="#fff" opacity=".25"/>
+
+  <!-- Sapins (couleurs de la palette : voir styles/_tokens.scss) -->
+  <path d="M1110 215 l22 -62 l22 62z" fill="#74c69d"/>
+  <path d="M1150 218 l17 -46 l17 46z" fill="#52b788"/>
+  <path d="M1290 205 l20 -56 l20 56z" fill="#74c69d"/>
+</svg>
