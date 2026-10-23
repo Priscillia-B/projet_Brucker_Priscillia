@@ -1,0 +1,118 @@
+<div class="form-wrapper">
+  <div class="form-card form-card--list">
+    <div class="card-badge" aria-hidden="true"><i class="fa-solid fa-map-location-dot"></i></div>
+
+    <div class="list-layout">
+      <aside class="filters-panel">
+        <div class="filters-panel__content">
+          <div class="panel-header">
+            <h2 class="panel-title"><i class="fa-solid fa-sliders"></i> Filtres</h2>
+            @if (hasActiveFilters()) {
+              <button type="button" class="btn-inline btn-cancel" (click)="resetFilters()" title="Réinitialiser les filtres">
+                <i class="fa-solid fa-rotate-left"></i> Réinitialiser
+              </button>
+            }
+          </div>
+
+          <form class="filters" [formGroup]="filters">
+            <div class="filter">
+              <label for="search">Rechercher</label>
+              <div class="input-icon">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input id="search" type="text" formControlName="search" placeholder="Titre ou lieu..." />
+              </div>
+            </div>
+
+            <div class="filter-dates">
+              <div class="filter">
+                <label for="dateFrom">Du</label>
+                <input id="dateFrom" type="date" formControlName="dateFrom" />
+              </div>
+              <div class="filter">
+                <label for="dateTo">Au</label>
+                <input id="dateTo" type="date" formControlName="dateTo" [min]="filters.controls.dateFrom.value" />
+              </div>
+            </div>
+
+            <!-- Types : cases à cocher affichées comme des pastilles (plusieurs choix possibles) -->
+            <fieldset class="filter filter--types">
+              <legend>Types <span class="filter-note">(aucun = tous)</span></legend>
+              <div class="type-chips">
+                @for (t of typesPollution; track t) {
+                  <label class="type-chip">
+                    <input
+                      type="checkbox"
+                      [checked]="filters.controls.types.value.includes(t)"
+                      (change)="toggleType(t)"
+                    />
+                    <i class="fa-solid {{ typeIcons[t] }}" aria-hidden="true"></i>
+                    {{ t }}
+                  </label>
+                }
+              </div>
+            </fieldset>
+          </form>
+        </div>
+      </aside>
+
+      <section class="list-main">
+        <header class="panel-header">
+          <div>
+            <h2 class="panel-title"><i class="fa-solid fa-map-location-dot"></i> Pollutions</h2>
+            @if (!isLoading()) {
+              <p class="list-count">
+                {{ filteredPollutions().length }} / {{ pollutions().length }} pollution(s)
+              </p>
+            }
+          </div>
+          <button type="button" class="btn-inline" routerLink="/declaration">
+            <i class="fa-solid fa-plus"></i> Ajouter une pollution
+          </button>
+        </header>
+
+        <div class="list-scroll">
+          @if (isLoading()) {
+            <p class="list-message">Chargement des données...</p>
+          } @else if (errorMessage()) {
+            <p class="error-banner">{{ errorMessage() }}</p>
+          } @else if (filteredPollutions().length === 0) {
+            <p class="list-message">Aucune pollution ne correspond à vos critères.</p>
+          } @else {
+            <div class="list-results">
+              @for (p of filteredPollutions(); track p.id) {
+                <article class="pollution-card" [routerLink]="['/pollutions', p.id]">
+                  <div class="pollution-card__media">
+                    @if (p.photoUrl) {
+                      <img [src]="p.photoUrl" [alt]="p.titre" />
+                    } @else {
+                      <i class="fa-solid {{ typeIcons[p.type] ?? 'fa-circle-question' }}" aria-hidden="true"></i>
+                    }
+                  </div>
+
+                  <div class="pollution-card__body">
+                    <span class="summary-eyebrow">{{ p.type }}</span>
+                    <h3>{{ p.titre }}</h3>
+                    <p class="pollution-card__meta"><i class="fa-solid fa-location-dot"></i> {{ p.lieu }}</p>
+                    <p class="pollution-card__meta"><i class="fa-regular fa-calendar-days"></i> {{ p.date | date: 'dd/MM/yyyy' }}</p>
+                  </div>
+
+                  <div class="pollution-card__actions">
+                    <button type="button" class="btn-inline" [routerLink]="['/pollutions', p.id]" (click)="$event.stopPropagation()">
+                      Voir le détail
+                    </button>
+                    <button type="button" class="btn-icon btn-secondary" [routerLink]="['/pollutions', p.id, 'edit']" (click)="$event.stopPropagation()" title="Modifier">
+                      <i class="fa-solid fa-pen"></i>
+                    </button>
+                    <button type="button" class="btn-icon btn-danger" (click)="$event.stopPropagation(); deletePollution(p.id!)" title="Supprimer">
+                      <i class="fa-regular fa-trash-can"></i>
+                    </button>
+                  </div>
+                </article>
+              }
+            </div>
+          }
+        </div>
+      </section>
+    </div>
+  </div>
+</div>

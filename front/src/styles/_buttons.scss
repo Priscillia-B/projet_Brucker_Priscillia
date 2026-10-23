@@ -1,4 +1,55 @@
-/* ============ Boutons ============ */
+@mixin btn-primary {
+  color: var(--surface);
+  background-color: var(--primary);
+  border-color: var(--primary);
+  box-shadow: var(--shadow-sm);
+
+  &:hover:not(:disabled) {
+    background-color: var(--primary-dark);
+    border-color: var(--primary-dark);
+    box-shadow: var(--shadow-md);
+  }
+}
+
+@mixin btn-secondary {
+  color: var(--primary-dark);
+  background-color: var(--primary-light);
+  border-color: var(--primary-soft);
+  box-shadow: none;
+
+  &:hover:not(:disabled) {
+    background-color: var(--primary-soft);
+    border-color: var(--accent);
+    box-shadow: none;
+  }
+}
+
+@mixin btn-cancel {
+  color: var(--danger);
+  background-color: var(--danger-light);
+  border-color: var(--danger-soft);
+  box-shadow: none;
+
+  &:hover:not(:disabled) {
+    background-color: var(--danger-soft);
+    border-color: var(--danger);
+    box-shadow: none;
+  }
+}
+
+@mixin btn-danger {
+  color: var(--surface);
+  background-color: var(--danger);
+  border-color: var(--danger);
+  box-shadow: none;
+
+  &:hover:not(:disabled) {
+    background-color: var(--danger-dark);
+    border-color: var(--danger-dark);
+    box-shadow: var(--shadow-md);
+  }
+}
+
 .form-card button {
   width: 100%;
   margin-top: 1.25rem;
@@ -6,37 +57,89 @@
   font: inherit;
   font-size: 1.05rem;
   font-weight: 700;
-  color: #fff;
-  background-color: var(--primary);
-  border: 2px solid var(--primary);
-  border-radius: 10px;
+  border: 2px solid;
+  border-radius: var(--radius);
   cursor: pointer;
-  box-shadow: 0 4px 12px rgba(15, 118, 110, 0.25);
   transition: all 0.2s ease;
+  @include btn-primary;
 
-  &:hover:not(:disabled) {
-    background-color: var(--primary-dark);
-    border-color: var(--primary-dark);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(15, 118, 110, 0.35);
-  }
+  &:hover:not(:disabled) { transform: translateY(-2px); }
 
   &:disabled {
-    background-color: #99d3cb;
-    border-color: #99d3cb;
+    background-color: var(--primary-disabled);
+    border-color: var(--primary-disabled);
     box-shadow: none;
     cursor: not-allowed;
   }
 
-  &.btn-secondary {
-    color: var(--primary-dark);
-    background-color: var(--primary-light);
-    border-color: #99f6e4;
-    box-shadow: none;
+  &.btn-secondary { @include btn-secondary; }
+  &.btn-cancel    { @include btn-cancel; }
+  &.btn-danger    { @include btn-danger; }
 
-    &:hover:not(:disabled) {
-      background-color: #99f6e4;
-      border-color: #5eead4;
-    }
+  &.btn-inline {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: auto;
+    margin-top: 0;
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+    white-space: nowrap;
   }
+
+  &.btn-icon {
+    display: inline-grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    margin-top: 0;
+    padding: 0;
+    font-size: 1rem;
+  }
+}
+
+.button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+
+  .form-card & button {
+    flex: 1 1 0;              
+    min-width: max-content;  
+    width: auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 0;
+    padding: 0.85rem 1rem;
+    font-size: 0.95rem;
+    white-space: nowrap;
+  }
+}
+
+/* ============ Fenêtres SweetAlert (voir app/utils/alerts.ts) ============ */
+.swal2-popup {
+  border-radius: var(--radius-lg);
+
+  .swal2-title { color: var(--ink); }
+  .swal2-html-container { color: var(--muted); }
+}
+
+.swal2-popup .swal-btn {
+  margin: 0 0.4rem;
+  padding: 0.75rem 1.4rem;
+  font: inherit;
+  font-weight: 700;
+  border: 2px solid;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  @include btn-primary;
+
+  &--cancel { @include btn-cancel; }
+  &--danger { @include btn-danger; }
 }
