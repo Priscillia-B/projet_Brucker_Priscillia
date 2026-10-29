@@ -7,10 +7,9 @@
   align-items: stretch;
   justify-content: space-between;
   padding: 0 2rem;
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(14px) saturate(1.4);
+  background: var(--surface);
   border-bottom: 1px solid var(--border);
-  box-shadow: 0 6px 20px rgba(15, 118, 110, 0.1);
+  box-shadow: var(--shadow-md);
 }
 
 .navbar-brand {
@@ -21,16 +20,18 @@
   font-size: 1.2rem;
   letter-spacing: -0.03em;
   color: var(--ink);
+  text-decoration: none;
 
   .logo-icon {
     display: grid;
     place-items: center;
     width: 34px;
     height: 34px;
-    font-size: 1.1rem;
+    font-size: 1rem;
+    color: var(--surface);
     border-radius: 10px;
-    background: linear-gradient(135deg, var(--primary), #14b8a6);
-    box-shadow: 0 4px 10px rgba(15, 118, 110, 0.3);
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    box-shadow: var(--shadow-sm);
   }
 
   em {
@@ -41,18 +42,23 @@
 
 .nav-links {
   display: flex;
+  align-items: center;
   gap: 0.25rem;
   height: 100%;
   margin: 0;
   padding: 0;
   list-style: none;
 
-  li { display: flex; }
+  li {
+    display: flex;
+    height: 100%;
+  }
 
   a {
     position: relative;
     display: flex;
     align-items: center;
+    gap: 0.5rem;
     padding: 0 1rem;
     font-size: 0.95rem;
     font-weight: 600;
@@ -84,11 +90,29 @@
       &::after { transform: scaleX(1); }
     }
   }
+
 }
 
 @media (max-width: 600px) {
   .glass-navbar { padding: 0 0.75rem; }
   .logo-text { display: none; }
-  .nav-links a { padding: 0 0.6rem; font-size: 0.85rem; }
-  .nav-links a::after { left: 0.6rem; right: 0.6rem; }
+
+  .nav-links a {
+    padding: 0 0.6rem;
+    font-size: 0.85rem;
+
+    &::after { left: 0.6rem; right: 0.6rem; }
+  }
+
+}
+
+// Très petits écrans : icônes seules (le texte reste lu par les lecteurs d'écran)
+@media (max-width: 360px) {
+  .nav-links a span {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
 }

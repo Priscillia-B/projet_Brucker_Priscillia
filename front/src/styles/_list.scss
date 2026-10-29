@@ -1,0 +1,314 @@
+/* ============ Page liste ============ */
+.form-card--list {
+  max-width: 1320px;
+  align-self: flex-start;
+}
+
+// Filtres à gauche (largeur fixe), pollutions à droite (prend le reste)
+.list-layout {
+  display: grid;
+  grid-template-columns: 300px minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr); // la ligne ne grandit pas avec le contenu : c'est lui qui défile
+  gap: 2rem;
+  // Hauteur fixe (celle de l'écran moins la navbar et les marges) : la page ne défile plus,
+  // c'est la liste de pollutions qui défile à l'intérieur
+  height: calc(100vh - var(--nav-h) - 12rem);
+  min-height: 460px;
+}
+
+// Colonne de droite : barre verticale de séparation, et même marge haute que le cadre
+// des filtres pour que les titres "Filtres" et "Pollutions" soient alignés
+.list-main {
+  display: flex;
+  flex-direction: column;
+  padding: 1.25rem 0 0 2rem;
+  border-left: 1px solid var(--border-soft);
+}
+
+// Zone qui défile (barre de défilement fine et verte)
+.list-scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 0.25rem 0.75rem 1.25rem 0.25rem; // de la place pour l'ombre des cartes au survol
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary-soft) transparent;
+}
+
+// Dans une grille, un élément ne rétrécit pas sous la taille de son contenu par défaut :
+// min-width: 0 l'y autorise (sinon les champs débordent du panneau)
+.list-main,
+.filters-panel,
+.filters > *,
+.filter-dates > * { min-width: 0; }
+
+// Titre de colonne ("Filtres", "Pollutions") + action éventuelle à droite
+.panel-header {
+  display: flex;
+  align-items: flex-start; // titres alignés en haut dans les deux colonnes
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 42px;
+  margin-bottom: 1.25rem;
+}
+
+.form-card .panel-title {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0;
+  font-size: 1.3rem;
+  text-align: left;
+
+  i {
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    font-size: 0.95rem;
+    color: var(--primary);
+    background: var(--primary-light);
+    border-radius: 50%;
+  }
+}
+
+.list-count {
+  margin: 0.25rem 0 0 calc(34px + 0.6rem); // aligné sous le texte du titre
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.list-message {
+  text-align: center;
+  color: var(--muted);
+}
+
+/* ============ Filtres (colonne de gauche) ============ */
+.filters-panel {
+  overflow-y: auto; // au cas où l'écran serait très bas
+  padding: 1.25rem;
+  background: var(--surface-alt);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-lg);
+
+  .panel-header { margin-bottom: 1rem; }
+
+
+  // bouton "Réinitialiser" compact pour tenir à côté du titre
+  .panel-header .btn-cancel {
+    padding: 0.4rem 0.75rem;
+    font-size: 0.8rem;
+  }
+}
+
+.filters {
+  display: grid;
+  gap: 1rem;
+
+  label {
+    display: block;
+    margin-bottom: 0.35rem;
+    font-size: 0.8rem;
+  }
+
+  // Champs plus compacts que dans les formulaires
+  input {
+    min-width: 0;
+    padding: 0.55rem 0.75rem;
+    font-size: 0.9rem;
+    background-color: var(--surface);
+  }
+}
+
+.filter-dates {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem;
+
+  input { padding: 0.55rem 0.4rem 0.55rem 0.6rem; }
+}
+
+/* Pastilles de types (cases à cocher stylisées) */
+.filter--types {
+  margin: 0;
+  padding: 0;
+  border: none;
+
+  legend {
+    margin-bottom: 0.45rem;
+    padding: 0;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--muted);
+  }
+}
+
+.filter-note { font-weight: 400; }
+
+.type-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.filters .type-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0;
+  padding: 0.4rem 0.85rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--muted);
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 999px;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.15s ease;
+
+  i { color: var(--accent); }
+
+  input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+  }
+
+  &:hover { border-color: var(--accent); }
+
+  &:has(input:checked) {
+    color: var(--surface);
+    background: var(--primary);
+    border-color: var(--primary);
+
+    i { color: var(--surface); }
+  }
+
+  &:has(input:focus-visible) { box-shadow: var(--focus-ring); }
+}
+
+.input-icon {
+  position: relative;
+
+  i {
+    position: absolute;
+    left: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--muted);
+    pointer-events: none;
+  }
+
+  input { padding-left: 2.2rem; }
+}
+
+.list-results {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.25rem;
+}
+
+.pollution-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+  }
+
+  &__media {
+    position: relative;
+    display: grid;
+    place-items: center;
+    height: 140px;
+    overflow: hidden;
+    background: linear-gradient(135deg, var(--primary-light), var(--surface-alt));
+
+    img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    > i {
+      font-size: 2.75rem;
+      color: var(--primary);
+      opacity: 0.6;
+    }
+  }
+
+  &__body {
+    flex: 1;
+    padding: 1.1rem 1.1rem 0.5rem;
+    text-align: center;
+
+    h3 {
+      margin: 0 0 0.6rem;
+      font-size: 1.1rem;
+      line-height: 1.3;
+      color: var(--ink);
+    }
+  }
+
+  &__meta {
+    margin: 0 0 0.3rem;
+    font-size: 0.85rem;
+    color: var(--muted);
+
+    i {
+      margin-right: 0.3rem;
+      color: var(--primary);
+    }
+  }
+
+  &__actions {
+    display: flex;
+    gap: 0.5rem;
+    padding: 0.75rem 1.1rem 1.1rem;
+
+    .btn-inline { flex: 1; }
+  }
+}
+
+/* ============ Responsive ============ */
+// Tablette et mobile : les filtres passent au-dessus de la liste
+@media (max-width: 900px) {
+  // Tablette et mobile : la page défile normalement
+  .list-layout {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    height: auto;
+    min-height: 0;
+  }
+
+  .list-scroll {
+    overflow: visible;
+    padding: 0;
+  }
+
+  .list-main {
+    padding: 0;
+    border-left: none;
+  }
+}
+
+@media (max-width: 560px) {
+  .list-main .panel-header {
+    flex-direction: column;
+    align-items: stretch;
+
+    button { justify-content: center; }
+  }
+}

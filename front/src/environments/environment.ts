@@ -1,5 +1,6 @@
 export const environment = {
   production: true,
-  useMock: false,
-  apiUrl: 'https://api.ecotrack.example.com',
+  // Pas encore de backend déployé doncla prod utilise aussi le faux backend (mock-interceptor).
+  useMock: true,
+  apiUrl: '/mock',
 };

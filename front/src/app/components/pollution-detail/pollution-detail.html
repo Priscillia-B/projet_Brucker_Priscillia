@@ -1,0 +1,66 @@
+<div class="form-wrapper">
+  <div class="form-card form-card--detail">
+    <div class="card-badge" aria-hidden="true"><i class="fa-solid fa-location-dot"></i></div>
+    <a routerLink="/pollutions" class="back-link">← Retour à la liste</a>
+
+    @if (isLoading()) {
+      <p class="list-message">Chargement des informations...</p>
+    } @else {
+      @if (pollution(); as p) {
+        <div class="summary-card">
+          <span class="summary-eyebrow">{{ p.type }}</span>
+          <h2 class="summary-title">{{ p.titre }}</h2>
+          <p class="subtitle">Observée le {{ p.date | date: 'dd/MM/yyyy' }}</p>
+
+          <div class="detail-layout" [class.detail-layout--single]="!p.photoUrl">
+            @if (p.photoUrl) {
+              <div class="detail-media">
+                <img [src]="p.photoUrl" [alt]="p.titre" />
+              </div>
+            }
+
+            <div class="detail-info">
+              <ul class="info-list">
+                <li class="info-item">
+                  <i class="fa-solid fa-location-dot"></i>
+                  <div>
+                    <span class="info-label">Lieu</span>
+                    <span class="info-value">{{ p.lieu }}</span>
+                  </div>
+                </li>
+                <li class="info-item">
+                  <i class="fa-solid fa-compass"></i>
+                  <div>
+                    <span class="info-label">Coordonnées</span>
+                    <span class="info-value">
+                      {{ p.latitude }}, {{ p.longitude }}
+                      <a [href]="mapUrl(p)" target="_blank" rel="noopener">Voir sur la carte ↗</a>
+                    </span>
+                  </div>
+                </li>
+                <li class="info-item">
+                  <i class="fa-solid fa-align-left"></i>
+                  <div>
+                    <span class="info-label">Description</span>
+                    <span class="info-value info-value--text">{{ p.description }}</span>
+                  </div>
+                </li>
+              </ul>
+
+              <div class="button-row">
+                <button type="button" class="btn-danger" (click)="deletePollution(p.id!)">
+                  <i class="fa-regular fa-trash-can"></i> Supprimer
+                </button>
+                <button type="button" class="btn-secondary" [routerLink]="['/pollutions', p.id, 'edit']">
+                  <i class="fa-solid fa-pen"></i> Modifier
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      } @else {
+        <p class="error-banner">Pollution introuvable.</p>
+      }
+    }
+  </div>
+</div>
