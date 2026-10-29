@@ -37,13 +37,53 @@ db.sequelize
       const count = await db.pollutions.count();
       if (count === 0) {
         await db.pollutions.bulkCreate([
-          { ville: "Paris", polluant: "PM2.5", valeur: 28.5, date: "2026-10-18", description: "Qualité de l'air dégradée au centre-ville" },
-          { ville: "Lyon", polluant: "NO2", valeur: 42.1, date: "2026-10-18", description: "Pic de pollution lié au trafic routier" },
-          { ville: "Marseille", polluant: "O3", valeur: 55.0, date: "2026-10-17", description: "Ozone élevé en zone côtière ensoleillée" },
-          { ville: "Strasbourg", polluant: "PM10", valeur: 34.2, date: "2026-10-18", description: "Particules en suspension modérées" },
-          { ville: "Bordeaux", polluant: "PM2.5", valeur: 15.3, date: "2026-10-16", description: "Bonne qualité globale de l'air" },
-          { ville: "Lille", polluant: "NO2", valeur: 38.7, date: "2026-10-17", description: "Trafic dense aux abords de la rocade" },
-          { ville: "Nantes", polluant: "CO2", valeur: 12.0, date: "2026-10-18", description: "Conditions atmosphériques favorables" }
+          {
+            titre: "Déchets plastiques sur la plage",
+            type: "Plastique",
+            description: "Bouteilles et sacs abandonnés sur le sable.",
+            date: "2024-05-12",
+            lieu: "Plage du Prado, Marseille",
+            latitude: 43.2767,
+            longitude: 5.3725,
+            photoUrl: "https://images.unsplash.com/photo-1530587191325-3db32d826c18?w=800"
+          },
+          {
+            titre: "Déversement suspect",
+            type: "Chimique",
+            description: "Liquide verdâtre s'écoulant d'une canalisation.",
+            date: "2024-06-20",
+            lieu: "Le Rhône, Lyon",
+            latitude: 45.75,
+            longitude: 4.85
+          },
+          {
+            titre: "Dépôt de gravats",
+            type: "Dépôt sauvage",
+            description: "Gravats de chantier jetés en forêt.",
+            date: "2024-07-05",
+            lieu: "Forêt de Fontainebleau",
+            latitude: 48.4047,
+            longitude: 2.7016
+          },
+          {
+            titre: "Sacs plastiques flottant dans le port",
+            type: "Eau",
+            description: "Une dizaine de sacs et films plastiques dérivent entre les bateaux, près du quai.",
+            date: "2024-08-22",
+            lieu: "Vieux-Port, Marseille",
+            latitude: 43.2951,
+            longitude: 5.374,
+            photoUrl: "https://images.unsplash.com/photo-1621451537084-482c73073a0f?w=800"
+          },
+          {
+            titre: "Fumées noires d'une cheminée d'usine",
+            type: "Air",
+            description: "Panache de fumée noire et odeur âcre observés en fin de journée, plusieurs jours d'affilée.",
+            date: "2024-09-14",
+            lieu: "Zone industrielle, Fos-sur-Mer",
+            latitude: 43.4378,
+            longitude: 4.9447
+          }
         ]);
         console.log("Jeu de données initial pour la table pollution inséré avec succès.");
       }
