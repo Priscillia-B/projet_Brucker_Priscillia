@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
   useMock: false,
-  apiUrl: '/api',
+  apiUrl: '/https://pollution-api-ylos.onrender.com',
 };
