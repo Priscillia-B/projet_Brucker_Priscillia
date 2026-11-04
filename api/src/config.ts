@@ -10,13 +10,14 @@ export interface AppConfig {
   BDD: DatabaseConfig;
 }
 
+// Poussé sur github car pas important dans notre cas, mais normalement à ne pas faire (validé par le prof)
 export const config: AppConfig = {
   BDD: {
-    host: process.env.DB_HOST || "dpg-d1hnd1bipnbc73faldmg-a.oregon-postgres.render.com",
+    host: process.env.DB_HOST || "dpg-dbhlsh8n74is73edab2g-a.oregon-postgres.render.com",
     port: process.env.DB_PORT || "5432",
-    user: process.env.DB_USER || "cnam_db_6xuy_user",
-    password: process.env.DB_PASSWORD || "fGkskYzc8Vwqho8X9bTXcnGq42q3X9bE",
-    bdname: process.env.DB_NAME || "cnam_db_6xuy"
+    user: process.env.DB_USER || "pollution_user",
+    password: process.env.DB_PASSWORD || "BTtnhV8fWIFqmmMKyGV15WtVlxG5vrFn",
+    bdname: process.env.DB_NAME || "pollution_db_stzv"
   }
 };
 
