@@ -1,12 +1,15 @@
-export interface SignupRequest {
+export interface User {
+  id: number;
   login: string;
   prenom: string;
   nom: string;
   email: string;
+}
+
+export interface NewUser extends Omit<User, 'id'> {
   password: string;
 }
 
-export interface SignupResponse {
-  id: number;
-  message: string;
+export interface UserUpdate extends Omit<User, 'id'> {
+  password?: string;
 }

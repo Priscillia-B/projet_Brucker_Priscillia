@@ -4,16 +4,22 @@
     <span class="logo-text">Eco<em>Track</em></span>
   </a>
 
-  <ul class="nav-links">
-    <li>
-      <a routerLink="/signup" routerLinkActive="active-link">
-        <i class="fa-solid fa-user-plus"></i><span>Inscription</span>
-      </a>
-    </li>
-    <li>
-      <a routerLink="/pollutions" routerLinkActive="active-link">
-        <i class="fa-solid fa-map-location-dot"></i><span>Pollutions</span>
-      </a>
-    </li>
-  </ul>
+  <div class="nav-right">
+    <ul class="nav-links">
+      <li>
+        <a routerLink="/pollutions" routerLinkActive="active-link">
+          <i class="fa-solid fa-map-location-dot"></i><span>Pollutions</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="/users" routerLinkActive="active-link">
+          <i class="fa-solid fa-users"></i><span>Utilisateurs</span>
+        </a>
+      </li>
+    </ul>
+
+    <a routerLink="/signup" routerLinkActive="nav-cta--active" class="nav-cta">
+      <i class="fa-solid fa-user-plus"></i><span>S'inscrire</span>
+    </a>
+  </div>
 </nav>

@@ -1,0 +1,38 @@
+<div class="form-wrapper">
+  <div class="form-card form-card--wide">
+    <div class="card-badge" aria-hidden="true"><i class="fa-solid fa-users"></i></div>
+
+    <header class="panel-header">
+      <div>
+        <h2 class="panel-title"><i class="fa-solid fa-users"></i> Utilisateurs</h2>
+        @if (!isLoading() && !errorMessage()) {
+          <p class="list-count">{{ users().length }} utilisateur(s)</p>
+        }
+      </div>
+    </header>
+
+    @if (isLoading()) {
+      <p class="list-message">Chargement des utilisateurs...</p>
+    } @else if (errorMessage()) {
+      <p class="error-banner">{{ errorMessage() }}</p>
+    } @else if (users().length === 0) {
+      <p class="list-message">Aucun utilisateur inscrit pour le moment.</p>
+    } @else {
+      <ul class="user-list">
+        @for (u of users(); track u.id) {
+          <li class="user-item">
+            <span class="user-avatar" aria-hidden="true">{{ u.prenom.charAt(0) }}{{ u.nom.charAt(0) }}</span>
+            <div class="user-info">
+              <span class="user-name">{{ u.prenom }} {{ u.nom }}</span>
+              <span class="user-meta"><i class="fa-solid fa-id-badge"></i> {{ u.login }}</span>
+              <span class="user-meta"><i class="fa-solid fa-envelope"></i> {{ u.email }}</span>
+            </div>
+            <button type="button" class="btn-icon btn-danger" (click)="deleteUser(u)" title="Supprimer">
+              <i class="fa-regular fa-trash-can"></i>
+            </button>
+          </li>
+        }
+      </ul>
+    }
+  </div>
+</div>

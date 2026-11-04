@@ -3,6 +3,7 @@ import { SignupComponent } from './components/signup/signup';
 import { ReportFormComponent } from './components/report-form/report-form';
 import { PollutionListComponent } from './components/pollution-list/pollution-list';
 import { PollutionDetailComponent } from './components/pollution-detail/pollution-detail';
+import { UserListComponent } from './components/user-list/user-list';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'pollutions', pathMatch: 'full' },
@@ -11,5 +12,6 @@ export const routes: Routes = [
   { path: 'pollutions', component: PollutionListComponent },
   { path: 'pollutions/:id', component: PollutionDetailComponent },
   { path: 'pollutions/:id/edit', component: ReportFormComponent },
+  { path: 'users', component: UserListComponent },
   { path: '**', redirectTo: 'pollutions' }
 ];
