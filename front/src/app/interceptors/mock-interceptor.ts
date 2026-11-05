@@ -2,11 +2,12 @@ import { HttpErrorResponse, HttpInterceptorFn, HttpRequest, HttpResponse } from 
 import { delay, of, throwError } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { Pollution } from '../models/pollution';
-import { SignupResponse } from '../models/user';
+import { NewUser, User, UserUpdate } from '../models/user';
 import { MOCK_POLLUTIONS } from './mock-data';
 
 // "Base de données" en mémoire 
 let pollutions: Pollution[] = [...MOCK_POLLUTIONS];
+let users: User[] = [];
 let nextUserId = 1;
 
 
@@ -20,9 +21,15 @@ export const mockInterceptor: HttpInterceptorFn = (req, next) => {
   if (resource === 'pollutions') {
     return handlePollutions(req, param ? Number(param) : null);
   }
-  if (resource === 'auth' && param === 'signup' && req.method === 'POST') {
-    const response: SignupResponse = { id: nextUserId++, message: 'Compte créé avec succès' };
-    return ok(response, 201);
+  if (resource === 'users' && param === 'login') {
+    const { login } = req.body as { login: string };
+    const found = users.find(u => u.login === login);
+    return found
+      ? ok(found)
+      : throwError(() => new HttpErrorResponse({ status: 401, statusText: 'Unauthorized', url: req.url }));
+  }
+  if (resource === 'users') {
+    return handleUsers(req, param ? Number(param) : null);
   }
   return notFound(req);
 };
@@ -53,6 +60,39 @@ function handlePollutions(req: HttpRequest<unknown>, id: number | null) {
     case 'DELETE':
       if (!existing) return notFound(req);
       pollutions = pollutions.filter(p => p.id !== id);
+      return ok(null, 204);
+
+    default:
+      return notFound(req);
+  }
+}
+
+function handleUsers(req: HttpRequest<unknown>, id: number | null) {
+  const existing = users.find(u => u.id === id);
+
+  switch (req.method) {
+    case 'GET':
+      if (id === null) return ok(users);
+      return existing ? ok(existing) : notFound(req);
+
+    case 'POST': {
+      const { password, ...data } = req.body as NewUser;
+      const created: User = { ...data, id: nextUserId++ };
+      users = [...users, created];
+      return ok(created, 201);
+    }
+
+    case 'PUT': {
+      if (!existing) return notFound(req);
+      const { password, ...data } = req.body as UserUpdate;
+      const updated: User = { ...data, id: existing.id };
+      users = users.map(u => (u.id === id ? updated : u));
+      return ok(updated);
+    }
+
+    case 'DELETE':
+      if (!existing) return notFound(req);
+      users = users.filter(u => u.id !== id);
       return ok(null, 204);
 
     default:

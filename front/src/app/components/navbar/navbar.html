@@ -1,19 +1,37 @@
 <nav class="glass-navbar">
-  <a routerLink="/pollutions" class="navbar-brand">
+  <a routerLink="/" class="navbar-brand">
     <span class="logo-icon"><i class="fa-solid fa-leaf"></i></span>
     <span class="logo-text">Eco<em>Track</em></span>
   </a>
 
-  <ul class="nav-links">
-    <li>
-      <a routerLink="/signup" routerLinkActive="active-link">
-        <i class="fa-solid fa-user-plus"></i><span>Inscription</span>
+  <div class="nav-right">
+    @if (auth.currentUser(); as user) {
+      <ul class="nav-links">
+        <li>
+          <a routerLink="/pollutions" routerLinkActive="active-link">
+            <i class="fa-solid fa-map-location-dot"></i><span>Pollutions</span>
+          </a>
+        </li>
+        <li>
+          <a routerLink="/users" routerLinkActive="active-link">
+            <i class="fa-solid fa-users"></i><span>Utilisateurs</span>
+          </a>
+        </li>
+      </ul>
+
+      <a class="nav-user" routerLink="/mon-compte" routerLinkActive="nav-user--active" title="Modifier mon compte ({{ user.login }})">
+        <i class="fa-solid fa-circle-user"></i><span>{{ user.prenom }}</span>
       </a>
-    </li>
-    <li>
-      <a routerLink="/pollutions" routerLinkActive="active-link">
-        <i class="fa-solid fa-map-location-dot"></i><span>Pollutions</span>
+      <button type="button" class="nav-cta nav-cta--ghost" (click)="logout()">
+        <i class="fa-solid fa-right-from-bracket"></i><span>Déconnexion</span>
+      </button>
+    } @else {
+      <a routerLink="/login" routerLinkActive="nav-cta--active" class="nav-cta nav-cta--ghost">
+        <i class="fa-solid fa-right-to-bracket"></i><span>Se connecter</span>
       </a>
-    </li>
-  </ul>
+      <a routerLink="/signup" routerLinkActive="nav-cta--active" class="nav-cta nav-cta--ghost">
+        <i class="fa-solid fa-user-plus"></i><span>S'inscrire</span>
+      </a>
+    }
+  </div>
 </nav>

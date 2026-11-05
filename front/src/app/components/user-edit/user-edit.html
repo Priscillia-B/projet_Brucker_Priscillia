@@ -1,0 +1,130 @@
+<div class="form-wrapper">
+  <div class="form-card form-card--wide">
+    <div class="card-badge" aria-hidden="true"><i class="fa-solid fa-user-pen"></i></div>
+    <a routerLink="/pollutions" class="back-link">← Retour</a>
+    <h2>Mon compte</h2>
+
+    @if (isLoading()) {
+      <p class="form-intro">Chargement…</p>
+    } @else if (notFound()) {
+      <p class="error-banner">Impossible de charger votre compte.</p>
+    } @else {
+      <p class="form-intro">
+        Mettez à jour les informations du compte.
+        <br />Les champs marqués d'un <span class="required">*</span> sont obligatoires.
+      </p>
+
+      @if (errorMessage()) {
+        <p class="error-banner">{{ errorMessage() }}</p>
+      }
+
+      <form [formGroup]="userForm" (ngSubmit)="onSubmit()" novalidate>
+        <fieldset class="form-section">
+          <legend class="form-section__title"><i class="fa-solid fa-user"></i> Identité</legend>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="prenom">Prénom <span class="required">*</span></label>
+              <input id="prenom" type="text" formControlName="prenom" />
+              @if (userForm.controls.prenom.invalid && userForm.controls.prenom.touched) {
+                <span class="error-text">Le prénom est requis.</span>
+              }
+            </div>
+
+            <div class="form-group">
+              <label for="nom">Nom <span class="required">*</span></label>
+              <input id="nom" type="text" formControlName="nom" />
+              @if (userForm.controls.nom.invalid && userForm.controls.nom.touched) {
+                <span class="error-text">Le nom est requis.</span>
+              }
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email <span class="required">*</span></label>
+            <input id="email" type="email" formControlName="email" />
+            @if (userForm.controls.email.invalid && userForm.controls.email.touched) {
+              @if (userForm.controls.email.errors?.['required']) {
+                <span class="error-text">L'email est requis.</span>
+              } @else {
+                <span class="error-text">L'email n'est pas valide.</span>
+              }
+            }
+          </div>
+        </fieldset>
+
+        <fieldset class="form-section">
+          <legend class="form-section__title"><i class="fa-solid fa-lock"></i> Connexion</legend>
+
+          <div class="form-group">
+            <label for="login">Login <span class="required">*</span></label>
+            <input id="login" type="text" formControlName="login" autocomplete="username" />
+            @if (userForm.controls.login.invalid && userForm.controls.login.touched) {
+              <span class="error-text">Le login est requis.</span>
+            }
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="password">Nouveau mot de passe</label>
+              <input
+                id="password"
+                type="password"
+                formControlName="password"
+                autocomplete="new-password"
+                placeholder="Laisser vide pour ne pas changer"
+              />
+              @if (userForm.controls.password.invalid && userForm.controls.password.touched) {
+                @if (userForm.controls.password.errors?.['minlength']) {
+                  <span class="error-text">Minimum 6 caractères.</span>
+                }
+                @if (userForm.controls.password.errors?.['pattern']) {
+                  <span class="error-text">Doit contenir au moins un chiffre.</span>
+                }
+              }
+            </div>
+
+            <div class="form-group">
+              <label for="confirmPassword">Confirmation</label>
+              <input
+                id="confirmPassword"
+                type="password"
+                formControlName="confirmPassword"
+                autocomplete="new-password"
+              />
+              @if (userForm.errors?.['passwordMismatch'] && userForm.controls.confirmPassword.touched) {
+                <span class="error-text">Les mots de passe ne correspondent pas.</span>
+              }
+            </div>
+          </div>
+          <p class="form-hint">
+            <i class="fa-solid fa-shield-halved"></i> Laissez vide pour garder le mot de passe actuel.
+          </p>
+        </fieldset>
+
+        <div class="button-row">
+          <button type="button" class="btn-cancel" routerLink="/pollutions">
+            <i class="fa-solid fa-xmark"></i> Annuler
+          </button>
+          <button type="submit" [disabled]="userForm.invalid || isSaving()">
+            @if (isSaving()) {
+              Enregistrement...
+            } @else {
+              <i class="fa-solid fa-check"></i> Enregistrer
+            }
+          </button>
+        </div>
+      </form>
+
+      <section class="danger-zone" aria-labelledby="danger-title">
+        <div>
+          <h3 id="danger-title"><i class="fa-solid fa-triangle-exclamation"></i> Supprimer mon compte</h3>
+          <p>Votre compte sera supprimé définitivement et vous serez déconnecté.</p>
+        </div>
+        <button type="button" class="btn-danger" (click)="deleteAccount()" [disabled]="isDeleting()">
+          <i class="fa-regular fa-trash-can"></i> Supprimer mon compte
+        </button>
+      </section>
+    }
+  </div>
+</div>

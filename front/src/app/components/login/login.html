@@ -1,0 +1,106 @@
+<div class="form-wrapper">
+  <div class="login-layout">
+    <section class="login-hero" aria-labelledby="hero-title">
+      <span class="hero-eyebrow"><i class="fa-solid fa-leaf"></i> Bienvenue sur EcoTrack</span>
+      <h1 id="hero-title">Recensons ensemble les pollutions autour de nous</h1>
+      <p class="hero-text">
+        EcoTrack permet de signaler, consulter et suivre les pollutions observées sur le terrain :
+        plastique, chimique, dépôts sauvages, eau, air…
+      </p>
+
+      <ul class="feature-list">
+        @for (f of features; track f.title) {
+          <li class="feature">
+            <span class="feature-icon"><i class="fa-solid {{ f.icon }}"></i></span>
+            <div>
+              <strong>{{ f.title }}</strong>
+              <span>{{ f.text }}</span>
+            </div>
+          </li>
+        }
+      </ul>
+    </section>
+
+    <div class="form-card login-card">
+      <div class="card-badge" aria-hidden="true"><i class="fa-solid fa-right-to-bracket"></i></div>
+      <h2>Connexion</h2>
+      <p class="form-intro">Connectez-vous pour accéder à l'application.</p>
+
+      <div class="members-notice" role="note">
+        <i class="fa-solid fa-lock"></i>
+        <p>
+          @if (returnUrl) {
+            <strong>Cette page est réservée aux membres.</strong>
+          } @else {
+            <strong>Contenu réservé aux membres.</strong>
+          }
+          La liste des pollutions, leurs fiches détaillées et la liste des utilisateurs ne sont
+          visibles qu'une fois connecté.
+        </p>
+      </div>
+
+      <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)" novalidate>
+        <div class="form-group">
+          <label for="login">Login <span class="required">*</span></label>
+          <input
+            type="text"
+            id="login"
+            name="login"
+            [(ngModel)]="credentials.login"
+            #loginCtrl="ngModel"
+            required
+            autocomplete="username"
+            placeholder="Votre login"
+          />
+          @if (loginCtrl.invalid && loginCtrl.touched) {
+            <span class="error-text">Le login est requis.</span>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="password">Mot de passe <span class="required">*</span></label>
+          <div class="password-field">
+            <input
+              [type]="showPassword() ? 'text' : 'password'"
+              id="password"
+              name="password"
+              [(ngModel)]="credentials.password"
+              #pwdCtrl="ngModel"
+              required
+              autocomplete="current-password"
+              placeholder="••••••••"
+            />
+            <button
+              type="button"
+              class="toggle-password"
+              (click)="showPassword.set(!showPassword())"
+              [attr.aria-label]="showPassword() ? 'Masquer le mot de passe' : 'Afficher le mot de passe'"
+              [attr.aria-pressed]="showPassword()"
+            >
+              <i class="fa-regular" [class.fa-eye]="!showPassword()" [class.fa-eye-slash]="showPassword()"></i>
+            </button>
+          </div>
+          @if (pwdCtrl.invalid && pwdCtrl.touched) {
+            <span class="error-text">Le mot de passe est requis.</span>
+          }
+        </div>
+
+        @if (errorMessage()) {
+          <p class="error-banner" role="alert">{{ errorMessage() }}</p>
+        }
+        <button type="submit" [disabled]="!loginForm.valid || isLoading()">
+          @if (isLoading()) {
+            Connexion…
+          } @else {
+            <i class="fa-solid fa-right-to-bracket"></i> Se connecter
+          }
+        </button>
+      </form>
+
+      <div class="signup-cta">
+        <span>Pas encore de compte ?</span>
+        <a routerLink="/signup"><i class="fa-solid fa-user-plus"></i> Créer un compte</a>
+      </div>
+    </div>
+  </div>
+</div>

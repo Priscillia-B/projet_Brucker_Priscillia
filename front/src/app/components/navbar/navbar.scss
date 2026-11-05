@@ -40,6 +40,12 @@
   }
 }
 
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
 .nav-links {
   display: flex;
   align-items: center;
@@ -93,8 +99,63 @@
 
 }
 
+// Action de compte, distincte des liens de navigation
+.nav-cta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 1.1rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--surface);
+  text-decoration: none;
+  white-space: nowrap;
+  background: var(--primary);
+  border-radius: 999px;
+  box-shadow: var(--shadow-sm);
+  transition: background 0.2s ease, transform 0.2s ease;
+
+  &:hover { background: var(--primary-dark); transform: translateY(-1px); }
+
+  &.nav-cta--active { background: var(--primary-dark); }
+}
+
+// Variante secondaire (connexion / déconnexion)
+.nav-cta--ghost {
+  color: var(--primary);
+  background: transparent;
+  border: 1px solid var(--primary);
+  box-shadow: none;
+  cursor: pointer;
+  font-family: inherit;
+
+  &:hover { color: var(--surface); background: var(--primary); }
+  &.nav-cta--active { color: var(--surface); background: var(--primary-dark); }
+}
+
+.nav-user {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: 600;
+  color: var(--ink);
+  white-space: nowrap;
+
+  text-decoration: none;
+  border-radius: 999px;
+  padding: 0.35rem 0.6rem;
+  transition: background 0.2s ease;
+
+  &:hover { background: var(--primary-light); }
+  &.nav-user--active { background: var(--primary-light); }
+
+  i { color: var(--primary); font-size: 1.1rem; }
+}
+
 @media (max-width: 600px) {
   .glass-navbar { padding: 0 0.75rem; }
+  .nav-right { gap: 0.4rem; }
+  .nav-cta { padding: 0.45rem 0.8rem; font-size: 0.85rem; }
   .logo-text { display: none; }
 
   .nav-links a {
@@ -107,6 +168,27 @@
 }
 
 // Très petits écrans : icônes seules (le texte reste lu par les lecteurs d'écran)
+@media (prefers-reduced-motion: reduce) {
+  .nav-links a::after,
+  .nav-cta { transition: none; }
+
+  .nav-cta:hover { transform: none; }
+}
+
+// Petits écrans : bouton en icône seule (le texte reste lu par les lecteurs d'écran)
+@media (max-width: 480px) {
+  .nav-cta { padding: 0.5rem 0.65rem; }
+
+  .nav-cta span,
+  .nav-user span {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+}
+
 @media (max-width: 360px) {
   .nav-links a span {
     position: absolute;

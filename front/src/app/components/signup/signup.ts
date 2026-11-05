@@ -1,7 +1,8 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
+import { HttpErrorResponse } from '@angular/common/http';
 import { RouterLink } from '@angular/router';
-import { Auth } from '../../services/auth';
+import { UserService } from '../../services/user';
 
 @Component({
   selector: 'app-signup',
@@ -11,7 +12,7 @@ import { Auth } from '../../services/auth';
   styleUrl: './signup.scss',
 })
 export class SignupComponent {
-  private readonly auth = inject(Auth);
+  private readonly userService = inject(UserService);
 
   isSubmitted = signal(false);
   isLoading = signal(false);
@@ -26,14 +27,18 @@ export class SignupComponent {
     this.isLoading.set(true);
     this.errorMessage.set(null);
 
-    this.auth.signup(payload).subscribe({
+    this.userService.createUser(payload).subscribe({
       next: () => {
         this.isLoading.set(false);
         this.isSubmitted.set(true);
       },
-      error: () => {
+      error: (err: HttpErrorResponse) => {
         this.isLoading.set(false);
-        this.errorMessage.set("L'inscription a échoué, réessayez plus tard.");
+        this.errorMessage.set(
+          err.status === 409
+            ? 'Ce login ou cet email est déjà utilisé.'
+            : "L'inscription a échoué, réessayez plus tard."
+        );
       },
     });
   }
