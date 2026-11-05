@@ -4,6 +4,8 @@ import userController from "../controllers/user.controllers";
 export default (app: Application): void => {
   const router = Router();
 
+  router.post("/login", userController.login);
+
   router.get("/", userController.getAll);
 
   router.get("/:id", userController.getById);

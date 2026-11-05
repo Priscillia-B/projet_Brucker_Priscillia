@@ -13,3 +13,8 @@ export interface NewUser extends Omit<User, 'id'> {
 export interface UserUpdate extends Omit<User, 'id'> {
   password?: string;
 }
+
+export interface LoginCredentials {
+  login: string;
+  password: string;
+}

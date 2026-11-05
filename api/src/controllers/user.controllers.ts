@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { randomBytes, scrypt } from "crypto";
+import { randomBytes, scrypt, timingSafeEqual } from "crypto";
 import { promisify } from "util";
 import { UniqueConstraintError, ValidationError } from "sequelize";
 import db from "../models";
@@ -20,6 +20,15 @@ const hashPassword = async (password: string): Promise<string> => {
   const salt = randomBytes(16).toString("hex");
   const hash = (await scryptAsync(password, salt, 64)) as Buffer;
   return `${salt}:${hash.toString("hex")}`;
+};
+
+/** Compare un mot de passe saisi avec un hash "sel:hash" stocké en base. */
+const verifyPassword = async (password: string, stored: string): Promise<boolean> => {
+  const [salt, hash] = stored.split(":");
+  if (!salt || !hash) return false;
+  const expected = Buffer.from(hash, "hex");
+  const actual = (await scryptAsync(password, salt, expected.length)) as Buffer;
+  return actual.length === expected.length && timingSafeEqual(actual, expected);
 };
 
 export const getAll = async (_req: Request, res: Response): Promise<void> => {
@@ -139,4 +148,30 @@ export const remove = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
-export default { getAll, getById, create, update, remove };
+/**
+ * Authentification fictive : vérifie le couple login / mot de passe et renvoie
+ * l'utilisateur (sans mot de passe). Aucun jeton n'est émis (JWT prévu plus tard).
+ */
+export const login = async (req: Request, res: Response): Promise<void> => {
+  const { login, password } = req.body;
+
+  if (typeof login !== "string" || typeof password !== "string" || !login || !password) {
+    res.status(400).json({ message: "Login et mot de passe requis." });
+    return;
+  }
+
+  try {
+    // unscoped() pour récupérer le hash, exclu par le defaultScope
+    const user = await Users.unscoped().findOne({ where: { login } });
+    if (!user || !(await verifyPassword(password, user.password))) {
+      res.status(401).json({ message: "Login ou mot de passe incorrect." });
+      return;
+    }
+    const { password: _hidden, ...publicUser } = user.toJSON();
+    res.status(200).json(publicUser);
+  } catch (err: unknown) {
+    res.status(500).json({ message: "Erreur lors de la connexion: " + errorMessage(err) });
+  }
+};
+
+export default { getAll, getById, create, update, remove, login };

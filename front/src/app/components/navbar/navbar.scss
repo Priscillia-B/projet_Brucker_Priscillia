@@ -120,6 +120,30 @@
   &.nav-cta--active { background: var(--primary-dark); }
 }
 
+// Variante secondaire (connexion / déconnexion)
+.nav-cta--ghost {
+  color: var(--primary);
+  background: transparent;
+  border: 1px solid var(--primary);
+  box-shadow: none;
+  cursor: pointer;
+  font-family: inherit;
+
+  &:hover { color: var(--surface); background: var(--primary); }
+  &.nav-cta--active { color: var(--surface); background: var(--primary-dark); }
+}
+
+.nav-user {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: 600;
+  color: var(--ink);
+  white-space: nowrap;
+
+  i { color: var(--primary); font-size: 1.1rem; }
+}
+
 @media (max-width: 600px) {
   .glass-navbar { padding: 0 0.75rem; }
   .nav-right { gap: 0.4rem; }
@@ -147,7 +171,8 @@
 @media (max-width: 480px) {
   .nav-cta { padding: 0.5rem 0.65rem; }
 
-  .nav-cta span {
+  .nav-cta span,
+  .nav-user span {
     position: absolute;
     width: 1px;
     height: 1px;

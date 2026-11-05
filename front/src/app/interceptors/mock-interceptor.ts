@@ -21,6 +21,13 @@ export const mockInterceptor: HttpInterceptorFn = (req, next) => {
   if (resource === 'pollutions') {
     return handlePollutions(req, param ? Number(param) : null);
   }
+  if (resource === 'users' && param === 'login') {
+    const { login } = req.body as { login: string };
+    const found = users.find(u => u.login === login);
+    return found
+      ? ok(found)
+      : throwError(() => new HttpErrorResponse({ status: 401, statusText: 'Unauthorized', url: req.url }));
+  }
   if (resource === 'users') {
     return handleUsers(req, param ? Number(param) : null);
   }

@@ -1,0 +1,184 @@
+.login-layout {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 440px);
+  gap: 3.5rem;
+  align-items: center;
+  width: 100%;
+  max-width: 1040px;
+}
+
+/* ============ Présentation ============ */
+.login-hero {
+  color: var(--ink);
+
+  h1 {
+    margin: 0.9rem 0 1rem;
+    font-size: clamp(1.7rem, 3.2vw, 2.5rem);
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+    color: var(--primary-dark);
+  }
+}
+
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.35rem 0.85rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--primary);
+  background: var(--primary-light);
+  border-radius: 999px;
+}
+
+.hero-text {
+  max-width: 52ch;
+  margin: 0 0 1.75rem;
+  font-size: 1.02rem;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+.feature-list {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.feature {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.9rem;
+  padding: 0.85rem 1rem;
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  backdrop-filter: blur(4px);
+
+  strong {
+    display: block;
+    font-size: 0.95rem;
+    color: var(--ink);
+  }
+
+  div span {
+    font-size: 0.87rem;
+    line-height: 1.45;
+    color: var(--muted);
+  }
+}
+
+.feature-icon {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  color: var(--surface);
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  border-radius: 10px;
+}
+
+/* ============ Carte de connexion ============ */
+.login-card {
+  max-width: none;
+}
+
+.members-notice {
+  display: flex;
+  gap: 0.75rem;
+  margin: 0 0 1.5rem;
+  padding: 0.85rem 1rem;
+  font-size: 0.87rem;
+  line-height: 1.5;
+  color: var(--primary-dark);
+  background: var(--primary-light);
+  border: 1px solid var(--primary-soft);
+  border-radius: var(--radius);
+
+  i { margin-top: 0.2rem; color: var(--primary); }
+  p { margin: 0; }
+  strong { display: block; margin-bottom: 0.15rem; }
+}
+
+.password-field {
+  position: relative;
+
+  input { padding-right: 3rem; }
+}
+
+// Spécificité renforcée pour ne pas hériter du style global ".form-card button"
+.form-card .toggle-password {
+  position: absolute;
+  top: 50%;
+  right: 0.4rem;
+  transform: translateY(-50%);
+  width: auto;
+  margin: 0;
+  padding: 0.45rem 0.6rem;
+  font-size: 1rem;
+  color: var(--muted);
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  box-shadow: none;
+  cursor: pointer;
+
+  &:hover:not(:disabled),
+  &:active {
+    color: var(--primary);
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    transform: translateY(-50%);
+  }
+
+  &:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+}
+
+.signup-cta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  font-size: 0.9rem;
+  color: var(--muted);
+  border-top: 1px solid var(--border-soft);
+
+  a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-weight: 700;
+    color: var(--primary);
+    text-decoration: none;
+
+    &:hover { text-decoration: underline; }
+  }
+}
+
+/* ============ Responsive ============ */
+@media (max-width: 900px) {
+  .login-layout {
+    grid-template-columns: 1fr;
+    gap: 3.5rem;
+    max-width: 480px;
+  }
+
+  // Sur petit écran, le formulaire passe en premier
+  .login-card { order: -1; }
+  .login-hero { text-align: center; }
+  .hero-text { margin-inline: auto; }
+  .feature { text-align: left; }
+}

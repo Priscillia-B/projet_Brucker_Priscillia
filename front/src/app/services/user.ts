@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { NewUser, User, UserUpdate } from '../models/user';
+import { LoginCredentials, NewUser, User, UserUpdate } from '../models/user';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
@@ -23,6 +23,10 @@ export class UserService {
 
   updateUser(id: number, user: UserUpdate): Observable<User> {
     return this.http.put<User>(`${this.baseUrl}/${id}`, user);
+  }
+
+  login(credentials: LoginCredentials): Observable<User> {
+    return this.http.post<User>(`${this.baseUrl}/login`, credentials);
   }
 
   deleteUser(id: number): Observable<void> {
