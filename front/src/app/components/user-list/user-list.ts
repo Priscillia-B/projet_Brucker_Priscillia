@@ -1,7 +1,7 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { UserService } from '../../services/user';
 import { User } from '../../models/user';
-import { confirmDelete, showError } from '../../utils/alerts';
+import { AuthService } from '../../services/auth';
 
 @Component({
   selector: 'app-user-list',
@@ -12,6 +12,7 @@ import { confirmDelete, showError } from '../../utils/alerts';
 })
 export class UserListComponent implements OnInit {
   private readonly userService = inject(UserService);
+  readonly auth = inject(AuthService);
 
   users = signal<User[]>([]);
   isLoading = signal(true);
@@ -27,15 +28,6 @@ export class UserListComponent implements OnInit {
         this.errorMessage.set('Impossible de charger les utilisateurs.');
         this.isLoading.set(false);
       }
-    });
-  }
-
-  async deleteUser(user: User) {
-    if (!(await confirmDelete(`Supprimer le compte de ${user.prenom} ${user.nom} ?`))) return;
-
-    this.userService.deleteUser(user.id).subscribe({
-      next: () => this.users.update(list => list.filter(u => u.id !== user.id)),
-      error: () => void showError('La suppression a échoué.')
     });
   }
 }

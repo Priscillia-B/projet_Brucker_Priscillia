@@ -115,6 +115,16 @@
           </button>
         </div>
       </form>
+
+      <section class="danger-zone" aria-labelledby="danger-title">
+        <div>
+          <h3 id="danger-title"><i class="fa-solid fa-triangle-exclamation"></i> Supprimer mon compte</h3>
+          <p>Votre compte sera supprimé définitivement et vous serez déconnecté.</p>
+        </div>
+        <button type="button" class="btn-danger" (click)="deleteAccount()" [disabled]="isDeleting()">
+          <i class="fa-regular fa-trash-can"></i> Supprimer mon compte
+        </button>
+      </section>
     }
   </div>
 </div>

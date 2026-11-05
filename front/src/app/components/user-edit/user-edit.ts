@@ -8,6 +8,7 @@ import { Router, RouterLink } from '@angular/router';
 import { UserService } from '../../services/user';
 import { AuthService } from '../../services/auth';
 import { UserUpdate } from '../../models/user';
+import { confirmDelete, showError } from '../../utils/alerts';
 
 /** Le nouveau mot de passe (optionnel) et sa confirmation doivent correspondre. */
 function passwordsMatch(group: AbstractControl): ValidationErrors | null {
@@ -20,7 +21,8 @@ function passwordsMatch(group: AbstractControl): ValidationErrors | null {
   selector: 'app-user-edit',
   standalone: true,
   imports: [ReactiveFormsModule, RouterLink],
-  templateUrl: './user-edit.html'
+  templateUrl: './user-edit.html',
+  styleUrl: './user-edit.scss'
 })
 export class UserEditComponent implements OnInit {
   private readonly router = inject(Router);
@@ -31,6 +33,7 @@ export class UserEditComponent implements OnInit {
 
   isLoading = signal(true);
   isSaving = signal(false);
+  isDeleting = signal(false);
   notFound = signal(false);
   errorMessage = signal<string | null>(null);
 
@@ -90,6 +93,22 @@ export class UserEditComponent implements OnInit {
             ? 'Ce login ou cet email est déjà utilisé.'
             : "L'enregistrement a échoué, réessayez plus tard."
         );
+      }
+    });
+  }
+
+  async deleteAccount() {
+    if (!(await confirmDelete('Supprimer votre compte ?'))) return;
+
+    this.isDeleting.set(true);
+    this.userService.deleteUser(this.userId).subscribe({
+      next: () => {
+        this.auth.logout();
+        void this.router.navigate(['/login']);
+      },
+      error: () => {
+        this.isDeleting.set(false);
+        void showError('La suppression du compte a échoué.');
       }
     });
   }

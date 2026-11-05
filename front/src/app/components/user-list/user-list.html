@@ -20,16 +20,18 @@
     } @else {
       <ul class="user-list">
         @for (u of users(); track u.id) {
-          <li class="user-item">
+          <li class="user-item" [class.user-item--me]="u.id === auth.currentUser()?.id">
             <span class="user-avatar" aria-hidden="true">{{ u.prenom.charAt(0) }}{{ u.nom.charAt(0) }}</span>
             <div class="user-info">
-              <span class="user-name">{{ u.prenom }} {{ u.nom }}</span>
+              <span class="user-name">
+                {{ u.prenom }} {{ u.nom }}
+                @if (u.id === auth.currentUser()?.id) {
+                  <span class="me-badge">Vous</span>
+                }
+              </span>
               <span class="user-meta"><i class="fa-solid fa-id-badge"></i> {{ u.login }}</span>
               <span class="user-meta"><i class="fa-solid fa-envelope"></i> {{ u.email }}</span>
             </div>
-            <button type="button" class="btn-icon btn-danger" (click)="deleteUser(u)" title="Supprimer">
-              <i class="fa-regular fa-trash-can"></i>
-            </button>
           </li>
         }
       </ul>

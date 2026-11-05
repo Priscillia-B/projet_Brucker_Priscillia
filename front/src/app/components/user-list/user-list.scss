@@ -53,3 +53,21 @@
 
   i { margin-right: 0.25rem; }
 }
+
+// Ligne de l'utilisateur connecté
+.user-item--me {
+  border-color: var(--primary-soft);
+  background: var(--surface-alt);
+}
+
+.me-badge {
+  display: inline-block;
+  margin-left: 0.4rem;
+  padding: 0.1rem 0.55rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  vertical-align: middle;
+  color: var(--primary);
+  background: var(--primary-light);
+  border-radius: 999px;
+}
