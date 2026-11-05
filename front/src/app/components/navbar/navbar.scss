@@ -141,6 +141,13 @@
   color: var(--ink);
   white-space: nowrap;
 
+  text-decoration: none;
+  border-radius: 999px;
+  padding: 0.35rem 0.6rem;
+  transition: background 0.2s ease;
+
+  &:hover { background: var(--primary-light); }
+
   i { color: var(--primary); font-size: 1.1rem; }
 }
 

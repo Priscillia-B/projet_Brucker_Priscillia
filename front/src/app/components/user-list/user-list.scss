@@ -53,3 +53,9 @@
 
   i { margin-right: 0.25rem; }
 }
+
+.user-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}

@@ -1,4 +1,5 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { UserService } from '../../services/user';
 import { User } from '../../models/user';
 import { confirmDelete, showError } from '../../utils/alerts';
@@ -6,7 +7,7 @@ import { confirmDelete, showError } from '../../utils/alerts';
 @Component({
   selector: 'app-user-list',
   standalone: true,
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './user-list.html',
   styleUrl: './user-list.scss'
 })

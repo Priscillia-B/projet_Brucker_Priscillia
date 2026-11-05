@@ -4,6 +4,7 @@ import { ReportFormComponent } from './components/report-form/report-form';
 import { PollutionListComponent } from './components/pollution-list/pollution-list';
 import { PollutionDetailComponent } from './components/pollution-detail/pollution-detail';
 import { UserListComponent } from './components/user-list/user-list';
+import { UserEditComponent } from './components/user-edit/user-edit';
 import { LoginComponent } from './components/login/login';
 import { authGuard, guestGuard } from './guards/auth-guard';
 
@@ -18,6 +19,7 @@ export const routes: Routes = [
   { path: 'pollutions/:id', component: PollutionDetailComponent, canActivate: [authGuard] },
   { path: 'pollutions/:id/edit', component: ReportFormComponent, canActivate: [authGuard] },
   { path: 'users', component: UserListComponent, canActivate: [authGuard] },
+  { path: 'users/:id/edit', component: UserEditComponent, canActivate: [authGuard] },
 
   { path: '**', redirectTo: 'login' }
 ];

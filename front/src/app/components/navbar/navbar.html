@@ -19,9 +19,9 @@
         </li>
       </ul>
 
-      <span class="nav-user" title="Connecté en tant que {{ user.login }}">
+      <a class="nav-user" [routerLink]="['/users', user.id, 'edit']" title="Modifier mon compte ({{ user.login }})">
         <i class="fa-solid fa-circle-user"></i><span>{{ user.prenom }}</span>
-      </span>
+      </a>
       <button type="button" class="nav-cta nav-cta--ghost" (click)="logout()">
         <i class="fa-solid fa-right-from-bracket"></i><span>Déconnexion</span>
       </button>
