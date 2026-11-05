@@ -147,6 +147,7 @@
   transition: background 0.2s ease;
 
   &:hover { background: var(--primary-light); }
+  &.nav-user--active { background: var(--primary-light); }
 
   i { color: var(--primary); font-size: 1.1rem; }
 }

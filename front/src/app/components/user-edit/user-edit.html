@@ -1,13 +1,13 @@
 <div class="form-wrapper">
   <div class="form-card form-card--wide">
     <div class="card-badge" aria-hidden="true"><i class="fa-solid fa-user-pen"></i></div>
-    <a routerLink="/users" class="back-link">← Retour à la liste</a>
-    <h2>{{ isOwnAccount ? 'Modifier mon compte' : "Modifier l'utilisateur" }}</h2>
+    <a routerLink="/pollutions" class="back-link">← Retour</a>
+    <h2>Mon compte</h2>
 
     @if (isLoading()) {
       <p class="form-intro">Chargement…</p>
     } @else if (notFound()) {
-      <p class="error-banner">Utilisateur introuvable.</p>
+      <p class="error-banner">Impossible de charger votre compte.</p>
     } @else {
       <p class="form-intro">
         Mettez à jour les informations du compte.
@@ -103,7 +103,7 @@
         </fieldset>
 
         <div class="button-row">
-          <button type="button" class="btn-cancel" routerLink="/users">
+          <button type="button" class="btn-cancel" routerLink="/pollutions">
             <i class="fa-solid fa-xmark"></i> Annuler
           </button>
           <button type="submit" [disabled]="userForm.invalid || isSaving()">

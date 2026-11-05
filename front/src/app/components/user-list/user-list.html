@@ -27,14 +27,9 @@
               <span class="user-meta"><i class="fa-solid fa-id-badge"></i> {{ u.login }}</span>
               <span class="user-meta"><i class="fa-solid fa-envelope"></i> {{ u.email }}</span>
             </div>
-            <div class="user-actions">
-              <button type="button" class="btn-icon btn-secondary" [routerLink]="['/users', u.id, 'edit']" title="Modifier">
-                <i class="fa-solid fa-pen"></i>
-              </button>
-              <button type="button" class="btn-icon btn-danger" (click)="deleteUser(u)" title="Supprimer">
-                <i class="fa-regular fa-trash-can"></i>
-              </button>
-            </div>
+            <button type="button" class="btn-icon btn-danger" (click)="deleteUser(u)" title="Supprimer">
+              <i class="fa-regular fa-trash-can"></i>
+            </button>
           </li>
         }
       </ul>

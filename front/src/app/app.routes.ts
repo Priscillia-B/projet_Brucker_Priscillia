@@ -19,7 +19,7 @@ export const routes: Routes = [
   { path: 'pollutions/:id', component: PollutionDetailComponent, canActivate: [authGuard] },
   { path: 'pollutions/:id/edit', component: ReportFormComponent, canActivate: [authGuard] },
   { path: 'users', component: UserListComponent, canActivate: [authGuard] },
-  { path: 'users/:id/edit', component: UserEditComponent, canActivate: [authGuard] },
+  { path: 'mon-compte', component: UserEditComponent, canActivate: [authGuard] },
 
   { path: '**', redirectTo: 'login' }
 ];

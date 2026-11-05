@@ -4,7 +4,7 @@ import {
   ValidationErrors, Validators
 } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { UserService } from '../../services/user';
 import { AuthService } from '../../services/auth';
 import { UserUpdate } from '../../models/user';
@@ -23,7 +23,6 @@ function passwordsMatch(group: AbstractControl): ValidationErrors | null {
   templateUrl: './user-edit.html'
 })
 export class UserEditComponent implements OnInit {
-  private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly userService = inject(UserService);
   private readonly auth = inject(AuthService);
@@ -50,12 +49,9 @@ export class UserEditComponent implements OnInit {
     { validators: passwordsMatch }
   );
 
-  get isOwnAccount(): boolean {
-    return this.auth.currentUser()?.id === this.userId;
-  }
-
   ngOnInit() {
-    this.userId = Number(this.route.snapshot.paramMap.get('id'));
+    // Toujours le compte connecté : impossible de modifier quelqu'un d'autre
+    this.userId = this.auth.currentUser()!.id;
 
     this.userService.getUserById(this.userId).subscribe({
       next: (user) => {
@@ -84,8 +80,8 @@ export class UserEditComponent implements OnInit {
     this.userService.updateUser(this.userId, payload).subscribe({
       next: (updated) => {
         this.isSaving.set(false);
-        if (this.isOwnAccount) this.auth.setUser(updated);
-        void this.router.navigate(['/users']);
+        this.auth.setUser(updated);
+        void this.router.navigate(['/pollutions']);
       },
       error: (err: HttpErrorResponse) => {
         this.isSaving.set(false);
