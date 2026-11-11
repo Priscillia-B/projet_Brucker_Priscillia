@@ -3,17 +3,10 @@ import { randomBytes, scrypt, timingSafeEqual } from "crypto";
 import { promisify } from "util";
 import { UniqueConstraintError, ValidationError } from "sequelize";
 import db from "../models";
+import { parseId, sendServerError } from "../utils/http.utils";
 
 const Users = db.users;
 const scryptAsync = promisify(scrypt);
-
-const parseId = (req: Request): number => {
-  const paramId = req.params.id;
-  return Array.isArray(paramId) ? Number(paramId[0]) : Number(paramId);
-};
-
-const errorMessage = (err: unknown): string =>
-  err instanceof Error ? err.message : String(err);
 
 /** Hache le mot de passe avec un sel aléatoire, au format "sel:hash". */
 const hashPassword = async (password: string): Promise<string> => {
@@ -38,9 +31,7 @@ export const getAll = async (_req: Request, res: Response): Promise<void> => {
     });
     res.status(200).json(data);
   } catch (err: unknown) {
-    res.status(500).json({
-      message: "Erreur lors de la récupération des utilisateurs: " + errorMessage(err)
-    });
+    sendServerError(res, "Erreur lors de la récupération des utilisateurs", err);
   }
 };
 
@@ -54,9 +45,7 @@ export const getById = async (req: Request, res: Response): Promise<void> => {
       res.status(404).json({ message: `Aucun utilisateur trouvé avec l'id=${id}.` });
     }
   } catch (err: unknown) {
-    res.status(500).json({
-      message: `Erreur lors de la récupération de l'utilisateur id=${id}: ` + errorMessage(err)
-    });
+    sendServerError(res, `Erreur lors de la récupération de l'utilisateur id=${id}`, err);
   }
 };
 
@@ -87,9 +76,7 @@ export const create = async (req: Request, res: Response): Promise<void> => {
       res.status(400).json({ message: "Données invalides: " + err.message });
       return;
     }
-    res.status(500).json({
-      message: "Erreur lors de la création de l'utilisateur: " + errorMessage(err)
-    });
+    sendServerError(res, "Erreur lors de la création de l'utilisateur", err);
   }
 };
 
@@ -126,9 +113,7 @@ export const update = async (req: Request, res: Response): Promise<void> => {
       res.status(400).json({ message: "Données invalides: " + err.message });
       return;
     }
-    res.status(500).json({
-      message: `Erreur lors de la modification de l'utilisateur id=${id}: ` + errorMessage(err)
-    });
+    sendServerError(res, `Erreur lors de la modification de l'utilisateur id=${id}`, err);
   }
 };
 
@@ -142,9 +127,7 @@ export const remove = async (req: Request, res: Response): Promise<void> => {
       res.status(404).json({ message: `Aucun utilisateur trouvé avec l'id=${id}.` });
     }
   } catch (err: unknown) {
-    res.status(500).json({
-      message: `Erreur lors de la suppression de l'utilisateur id=${id}: ` + errorMessage(err)
-    });
+    sendServerError(res, `Erreur lors de la suppression de l'utilisateur id=${id}`, err);
   }
 };
 
@@ -170,7 +153,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
     const { password: _hidden, ...publicUser } = user.toJSON();
     res.status(200).json(publicUser);
   } catch (err: unknown) {
-    res.status(500).json({ message: "Erreur lors de la connexion: " + errorMessage(err) });
+    sendServerError(res, "Erreur lors de la connexion", err);
   }
 };
 

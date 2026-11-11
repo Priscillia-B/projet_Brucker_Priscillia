@@ -1,17 +1,10 @@
 import { Request, Response } from "express";
 import { ValidationError } from "sequelize";
 import db from "../models";
+import { parseId, sendServerError } from "../utils/http.utils";
 import { PollutionCreationAttributes } from "../models/pollutions.model";
 
 const Pollutions = db.pollutions;
-
-const parseId = (req: Request): number => {
-  const paramId = req.params.id;
-  return Array.isArray(paramId) ? Number(paramId[0]) : Number(paramId);
-};
-
-const errorMessage = (err: unknown): string =>
-  err instanceof Error ? err.message : String(err);
 
 const pickFields = (body: Record<string, unknown>): PollutionCreationAttributes => ({
   titre: body.titre as string,
@@ -34,9 +27,7 @@ export const getAll = async (_req: Request, res: Response): Promise<void> => {
     });
     res.status(200).json(data);
   } catch (err: unknown) {
-    res.status(500).json({
-      message: "Erreur lors de la récupération des données de pollution: " + errorMessage(err)
-    });
+    sendServerError(res, "Erreur lors de la récupération des données de pollution", err);
   }
 };
 
@@ -55,9 +46,7 @@ export const getById = async (req: Request, res: Response): Promise<void> => {
       });
     }
   } catch (err: unknown) {
-    res.status(500).json({
-      message: `Erreur lors de la récupération de la pollution id=${id}: ` + errorMessage(err)
-    });
+    sendServerError(res, `Erreur lors de la récupération de la pollution id=${id}`, err);
   }
 };
 
@@ -70,9 +59,7 @@ export const create = async (req: Request, res: Response): Promise<void> => {
       res.status(400).json({ message: "Données invalides: " + err.message });
       return;
     }
-    res.status(500).json({
-      message: "Erreur lors de la création de la pollution: " + errorMessage(err)
-    });
+    sendServerError(res, "Erreur lors de la création de la pollution", err);
   }
 };
 
@@ -91,9 +78,7 @@ export const update = async (req: Request, res: Response): Promise<void> => {
       res.status(400).json({ message: "Données invalides: " + err.message });
       return;
     }
-    res.status(500).json({
-      message: `Erreur lors de la modification de la pollution id=${id}: ` + errorMessage(err)
-    });
+    sendServerError(res, `Erreur lors de la modification de la pollution id=${id}`, err);
   }
 };
 
@@ -107,9 +92,7 @@ export const remove = async (req: Request, res: Response): Promise<void> => {
       res.status(404).json({ message: `Aucune pollution trouvée avec l'id=${id}.` });
     }
   } catch (err: unknown) {
-    res.status(500).json({
-      message: `Erreur lors de la suppression de la pollution id=${id}: ` + errorMessage(err)
-    });
+    sendServerError(res, `Erreur lors de la suppression de la pollution id=${id}`, err);
   }
 };
 
