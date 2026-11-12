@@ -10,10 +10,11 @@ export interface PollutionAttributes {
   latitude: number;
   longitude: number;
   photoUrl?: string | null;
+  indice?: number | null; 
 }
 
 export interface PollutionCreationAttributes
-  extends Optional<PollutionAttributes, "id" | "photoUrl"> {}
+  extends Optional<PollutionAttributes, "id" | "photoUrl" | "indice"> {}
 
 export interface PollutionInstance
   extends Model<PollutionAttributes, PollutionCreationAttributes>,
@@ -65,6 +66,14 @@ export default function definePollutions(
       photoUrl: {
         type: DataTypes.TEXT,
         allowNull: true
+      },
+      indice: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        validate: {
+          isInt: { msg: "L'indice doit être un nombre entier." },
+          min: { args: [0], msg: "L'indice doit être positif ou nul." }
+        }
       }
     },
     {

@@ -9,7 +9,14 @@
       @if (pollution(); as p) {
         <div class="summary-card">
           <span class="summary-eyebrow">{{ p.type }}</span>
-          <h2 class="summary-title">{{ p.titre }}</h2>
+          <div class="title-row">
+            <h2 class="summary-title">{{ p.titre }}</h2>
+            @if (p.indice != null) {
+              <span class="pollution-level" [appHighlightPollution]="p.indice">
+                Niveau {{ p.indice | pollutionLevel }} — indice {{ p.indice }}
+              </span>
+            }
+          </div>
           <p class="subtitle">Observée le {{ p.date | date: 'dd/MM/yyyy' }}</p>
 
           <div class="detail-layout" [class.detail-layout--single]="!p.photoUrl">
