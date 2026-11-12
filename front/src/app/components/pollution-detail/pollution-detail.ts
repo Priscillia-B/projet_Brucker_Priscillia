@@ -4,11 +4,13 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { PollutionService } from '../../services/pollution';
 import { mapUrl, Pollution } from '../../models/pollution';
 import { confirmDelete, showError } from '../../utils/alerts';
+import { PollutionLevelPipe } from '../../pipes/pollution-level-pipe';
+import { HighlightPollutionDirective } from '../../directives/highlight-pollution-directive';
 
 @Component({
   selector: 'app-pollution-detail',
   standalone: true,
-  imports: [DatePipe, RouterLink],
+  imports: [DatePipe, RouterLink, PollutionLevelPipe, HighlightPollutionDirective],
   templateUrl: './pollution-detail.html',
   styleUrl: './pollution-detail.scss'
 })

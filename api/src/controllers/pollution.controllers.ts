@@ -14,7 +14,10 @@ const pickFields = (body: Record<string, unknown>): PollutionCreationAttributes 
   lieu: body.lieu as string,
   latitude: body.latitude as number,
   longitude: body.longitude as number,
-  photoUrl: (body.photoUrl as string) || null
+  photoUrl: (body.photoUrl as string) || null,
+  indice: body.indice === undefined || body.indice === null || body.indice === ""
+    ? null
+    : Number(body.indice)
 });
 
 /**

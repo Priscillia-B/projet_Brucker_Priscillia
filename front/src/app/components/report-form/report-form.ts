@@ -7,6 +7,8 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ReportSummaryComponent } from '../report-summary/report-summary';
 import { PollutionService } from '../../services/pollution';
 import { Pollution, POLLUTION_TYPES } from '../../models/pollution';
+import { PollutionLevelPipe } from '../../pipes/pollution-level-pipe';
+import { HighlightPollutionDirective } from '../../directives/highlight-pollution-directive';
 
 /** La date doit être valide et ne pas être dans le futur. */
 function validObservationDate(control: AbstractControl): ValidationErrors | null {
@@ -19,7 +21,7 @@ function validObservationDate(control: AbstractControl): ValidationErrors | null
 @Component({
   selector: 'app-report-form',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterLink, ReportSummaryComponent],
+  imports: [ReactiveFormsModule, RouterLink, ReportSummaryComponent, PollutionLevelPipe, HighlightPollutionDirective],
   templateUrl: './report-form.html'
 })
 export class ReportFormComponent implements OnInit {
@@ -41,6 +43,10 @@ export class ReportFormComponent implements OnInit {
     titre: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
     type: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
     description: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
+    // Indice de dangerosité : nombre entier >= 0
+    indice: new FormControl<number | null>(null, {
+      validators: [Validators.required, Validators.min(0), Validators.pattern(/^\d+$/)]
+    }),
     date: new FormControl('', { nonNullable: true, validators: [Validators.required, validObservationDate] }),
     lieu: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
     latitude: new FormControl<number | null>(null, {

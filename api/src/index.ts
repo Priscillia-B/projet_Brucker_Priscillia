@@ -20,7 +20,6 @@ app.use(express.json());
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
 
-// health checks
 app.get("/", (_req: Request, res: Response) => {
   res.json({ message: "Welcome to Pollution API." });
 });
@@ -33,11 +32,14 @@ db.sequelize
   .sync()
   .then(async () => {
     console.log("Synced db.");
+    
+    await db.sequelize.query('ALTER TABLE pollution ADD COLUMN IF NOT EXISTS indice INTEGER');
     try {
       const count = await db.pollutions.count();
       if (count === 0) {
         await db.pollutions.bulkCreate([
           {
+            indice: 35,
             titre: "Déchets plastiques sur la plage",
             type: "Plastique",
             description: "Bouteilles et sacs abandonnés sur le sable.",
@@ -48,6 +50,7 @@ db.sequelize
             photoUrl: "https://images.unsplash.com/photo-1530587191325-3db32d826c18?w=800"
           },
           {
+            indice: 120,
             titre: "Déversement suspect",
             type: "Chimique",
             description: "Liquide verdâtre s'écoulant d'une canalisation.",
@@ -57,6 +60,7 @@ db.sequelize
             longitude: 4.85
           },
           {
+            indice: 15,
             titre: "Dépôt de gravats",
             type: "Dépôt sauvage",
             description: "Gravats de chantier jetés en forêt.",
@@ -66,6 +70,7 @@ db.sequelize
             longitude: 2.7016
           },
           {
+            indice: 60,
             titre: "Sacs plastiques flottant dans le port",
             type: "Eau",
             description: "Une dizaine de sacs et films plastiques dérivent entre les bateaux, près du quai.",
@@ -76,6 +81,7 @@ db.sequelize
             photoUrl: "https://images.unsplash.com/photo-1621451537084-482c73073a0f?w=800"
           },
           {
+            indice: 85,
             titre: "Fumées noires d'une cheminée d'usine",
             type: "Air",
             description: "Panache de fumée noire et odeur âcre observés en fin de journée, plusieurs jours d'affilée.",

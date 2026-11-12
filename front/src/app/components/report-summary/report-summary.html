@@ -1,6 +1,11 @@
 <div class="summary-card">
   <span class="summary-eyebrow">Déclaration enregistrée</span>
   <h2 class="summary-title">{{ pollution.titre }}</h2>
+  @if (pollution.indice != null) {
+    <span class="pollution-level" [appHighlightPollution]="pollution.indice">
+      Niveau {{ pollution.indice | pollutionLevel }} — indice {{ pollution.indice }}
+    </span>
+  }
   <p class="subtitle">Merci pour votre contribution à la protection de l'environnement.</p>
 
   <div class="detail-layout" [class.detail-layout--single]="!pollution.photoUrl">
