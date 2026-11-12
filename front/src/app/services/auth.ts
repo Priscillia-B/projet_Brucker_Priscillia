@@ -1,15 +1,35 @@
-import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { environment } from '../../environments/environment';
-import { SignupRequest, SignupResponse } from '../models/user';
+import { Injectable, computed, signal } from '@angular/core';
+import { User } from '../models/user';
 
+const STORAGE_KEY = 'ecotrack.currentUser';
+
+/**
+ * Authentification fictive : garde l'utilisateur connecté côté front
+ * (signal + localStorage). Aucun jeton n'est échangé avec l'API.
+ */
 @Injectable({ providedIn: 'root' })
-export class Auth {
-    private readonly http = inject(HttpClient);
-    private readonly baseUrl = `${environment.apiUrl}/auth`;
+export class AuthService {
+  private readonly user = signal<User | null>(this.restore());
 
-    signup(payload: SignupRequest): Observable<SignupResponse> {
-        return this.http.post<SignupResponse>(`${this.baseUrl}/signup`, payload);
+  readonly currentUser = this.user.asReadonly();
+  readonly isLoggedIn = computed(() => this.user() !== null);
+
+  setUser(user: User) {
+    this.user.set(user);
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(user)); } catch {}
+  }
+
+  logout() {
+    this.user.set(null);
+    try { localStorage.removeItem(STORAGE_KEY); } catch {  }
+  }
+
+  private restore(): User | null {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      return raw ? (JSON.parse(raw) as User) : null;
+    } catch {
+      return null;
     }
+  }
 }

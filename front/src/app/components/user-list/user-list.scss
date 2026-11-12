@@ -1,0 +1,73 @@
+.user-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.user-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.9rem 1rem;
+  background: var(--surface);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+}
+
+.user-avatar {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--primary);
+  background: var(--primary-light);
+  border-radius: 50%;
+}
+
+.user-info {
+  display: flex;
+  flex: 1;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.25rem 1rem;
+  min-width: 0;
+}
+
+.user-name {
+  flex-basis: 100%;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.user-meta {
+  font-size: 0.9rem;
+  color: var(--muted);
+  overflow-wrap: anywhere;
+
+  i { margin-right: 0.25rem; }
+}
+
+// Ligne de l'utilisateur connecté
+.user-item--me {
+  border-color: var(--primary-soft);
+  background: var(--surface-alt);
+}
+
+.me-badge {
+  display: inline-block;
+  margin-left: 0.4rem;
+  padding: 0.1rem 0.55rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  vertical-align: middle;
+  color: var(--primary);
+  background: var(--primary-light);
+  border-radius: 999px;
+}

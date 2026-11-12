@@ -3,10 +3,10 @@ const loadSwal = async () => (await import('sweetalert2')).default;
 
 const buttonClasses = { confirmButton: 'swal-btn', cancelButton: 'swal-btn swal-btn--cancel' };
 
-export async function confirmDelete(): Promise<boolean> {
+export async function confirmDelete(title = 'Supprimer cette pollution ?'): Promise<boolean> {
   const Swal = await loadSwal();
   const result = await Swal.fire({
-    title: 'Supprimer cette pollution ?',
+    title,
     text: 'Cette action est définitive.',
     icon: 'warning',
     showCancelButton: true,
