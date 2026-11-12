@@ -8,7 +8,7 @@ export interface Pollution {
   latitude: number;
   longitude: number;
   photoUrl?: string;
-  indice?: number; // indice de dangerosité (0 et plus)
+  indice?: number; 
 }
 
 export const POLLUTION_TYPES = ['Plastique', 'Chimique', 'Dépôt sauvage', 'Eau', 'Air', 'Autre'];

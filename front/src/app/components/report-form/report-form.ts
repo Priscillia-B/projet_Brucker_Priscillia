@@ -43,7 +43,6 @@ export class ReportFormComponent implements OnInit {
     titre: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
     type: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
     description: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
-    // Indice de dangerosité : nombre entier >= 0
     indice: new FormControl<number | null>(null, {
       validators: [Validators.required, Validators.min(0), Validators.pattern(/^\d+$/)]
     }),

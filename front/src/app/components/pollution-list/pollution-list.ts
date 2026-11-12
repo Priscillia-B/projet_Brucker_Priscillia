@@ -78,7 +78,6 @@ export class PollutionListComponent implements OnInit {
     this.filters.reset();
   }
 
-  /** Coche / décoche un type dans le filtre. */
   toggleType(type: string) {
     const control = this.filters.controls.types;
     control.setValue(
