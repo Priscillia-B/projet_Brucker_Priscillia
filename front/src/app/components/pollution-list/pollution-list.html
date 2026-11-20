@@ -92,6 +92,11 @@
                   <div class="pollution-card__body">
                     <span class="summary-eyebrow">{{ p.type }}</span>
                     <h3>{{ p.titre }}</h3>
+                    @if (p.indice != null) {
+                      <span class="pollution-level" [appHighlightPollution]="p.indice">
+                        {{ p.indice | pollutionLevel }} ({{ p.indice }})
+                      </span>
+                    }
                     <p class="pollution-card__meta"><i class="fa-solid fa-location-dot"></i> {{ p.lieu }}</p>
                     <p class="pollution-card__meta"><i class="fa-regular fa-calendar-days"></i> {{ p.date | date: 'dd/MM/yyyy' }}</p>
                   </div>

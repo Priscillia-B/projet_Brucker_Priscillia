@@ -7,11 +7,13 @@ import { map } from 'rxjs';
 import { PollutionService } from '../../services/pollution';
 import { Pollution, POLLUTION_TYPE_ICONS, POLLUTION_TYPES } from '../../models/pollution';
 import { confirmDelete, showError } from '../../utils/alerts';
+import { PollutionLevelPipe } from '../../pipes/pollution-level-pipe';
+import { HighlightPollutionDirective } from '../../directives/highlight-pollution-directive';
 
 @Component({
   selector: 'app-pollution-list',
   standalone: true,
-  imports: [DatePipe, RouterLink, ReactiveFormsModule],
+  imports: [DatePipe, RouterLink, ReactiveFormsModule, PollutionLevelPipe, HighlightPollutionDirective],
   templateUrl: './pollution-list.html',
   styleUrl: './pollution-list.scss'
 })
@@ -76,7 +78,6 @@ export class PollutionListComponent implements OnInit {
     this.filters.reset();
   }
 
-  /** Coche / décoche un type dans le filtre. */
   toggleType(type: string) {
     const control = this.filters.controls.types;
     control.setValue(

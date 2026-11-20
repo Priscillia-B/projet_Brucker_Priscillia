@@ -3,6 +3,7 @@ import { Pollution } from '../models/pollution';
 export const MOCK_POLLUTIONS: Pollution[] = [
   {
     id: 1,
+    indice: 35,
     titre: 'Déchets plastiques sur la plage',
     type: 'Plastique',
     description: 'Bouteilles et sacs abandonnés sur le sable.',
@@ -14,6 +15,7 @@ export const MOCK_POLLUTIONS: Pollution[] = [
   },
   {
     id: 2,
+    indice: 120,
     titre: 'Déversement suspect',
     type: 'Chimique',
     description: "Liquide verdâtre s'écoulant d'une canalisation.",
@@ -24,6 +26,7 @@ export const MOCK_POLLUTIONS: Pollution[] = [
   },
   {
     id: 3,
+    indice: 15,
     titre: 'Dépôt de gravats',
     type: 'Dépôt sauvage',
     description: 'Gravats de chantier jetés en forêt.',
@@ -34,6 +37,7 @@ export const MOCK_POLLUTIONS: Pollution[] = [
   },
   {
     id: 4,
+    indice: 60,
     titre: 'Sacs plastiques flottant dans le port',
     type: 'Eau',
     description: 'Une dizaine de sacs et films plastiques dérivent entre les bateaux, près du quai.',
@@ -45,6 +49,7 @@ export const MOCK_POLLUTIONS: Pollution[] = [
   },
   {
     id: 5,
+    indice: 85,
     titre: "Fumées noires d'une cheminée d'usine",
     type: 'Air',
     description: "Panache de fumée noire et odeur âcre observés en fin de journée, plusieurs jours d'affilée.",
