@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject, signal } from '@angular/core';
 import {
   AbstractControl, FormControl, FormGroup, ReactiveFormsModule,
   ValidationErrors, Validators
@@ -9,6 +9,7 @@ import { UserService } from '../../services/user';
 import { AuthService } from '../../services/auth';
 import { UserUpdate } from '../../models/user';
 import { confirmDelete, showError } from '../../utils/alerts';
+import { HasUnsavedChanges } from '../../guards/unsaved-changes-guard';
 
 /** Le nouveau mot de passe (optionnel) et sa confirmation doivent correspondre. */
 function passwordsMatch(group: AbstractControl): ValidationErrors | null {
@@ -20,11 +21,12 @@ function passwordsMatch(group: AbstractControl): ValidationErrors | null {
 @Component({
   selector: 'app-user-edit',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ReactiveFormsModule, RouterLink],
   templateUrl: './user-edit.html',
   styleUrl: './user-edit.scss'
 })
-export class UserEditComponent implements OnInit {
+export class UserEditComponent implements OnInit, HasUnsavedChanges {
   private readonly router = inject(Router);
   private readonly userService = inject(UserService);
   private readonly auth = inject(AuthService);
@@ -84,6 +86,7 @@ export class UserEditComponent implements OnInit {
       next: (updated) => {
         this.isSaving.set(false);
         this.auth.setUser(updated);
+        this.userForm.markAsPristine(); 
         void this.router.navigate(['/pollutions']);
       },
       error: (err: HttpErrorResponse) => {
@@ -97,12 +100,17 @@ export class UserEditComponent implements OnInit {
     });
   }
 
+  hasUnsavedChanges(): boolean {
+    return this.userForm.dirty;
+  }
+
   async deleteAccount() {
     if (!(await confirmDelete('Supprimer votre compte ?'))) return;
 
     this.isDeleting.set(true);
     this.userService.deleteUser(this.userId).subscribe({
       next: () => {
+        this.userForm.markAsPristine();
         this.auth.logout();
         void this.router.navigate(['/login']);
       },

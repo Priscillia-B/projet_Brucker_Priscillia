@@ -29,3 +29,19 @@ export async function showError(message: string): Promise<void> {
     customClass: buttonClasses
   });
 }
+
+export async function confirmLeave(): Promise<boolean> {
+  const Swal = await loadSwal();
+  const result = await Swal.fire({
+    title: 'Quitter sans enregistrer ?',
+    text: 'Les modifications en cours seront perdues.',
+    icon: 'question',
+    showCancelButton: true,
+    confirmButtonText: 'Quitter la page',
+    cancelButtonText: 'Rester',
+    reverseButtons: true,
+    buttonsStyling: false,
+    customClass: buttonClasses
+  });
+  return result.isConfirmed;
+}
