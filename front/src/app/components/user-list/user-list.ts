@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
 import { UserService } from '../../services/user';
 import { User } from '../../models/user';
 import { AuthService } from '../../services/auth';
@@ -6,6 +6,7 @@ import { AuthService } from '../../services/auth';
 @Component({
   selector: 'app-user-list',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [],
   templateUrl: './user-list.html',
   styleUrl: './user-list.scss'

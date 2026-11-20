@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal, computed } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit, signal, computed } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { ReactiveFormsModule, FormControl, FormGroup } from '@angular/forms';
@@ -13,6 +13,7 @@ import { HighlightPollutionDirective } from '../../directives/highlight-pollutio
 @Component({
   selector: 'app-pollution-list',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [DatePipe, RouterLink, ReactiveFormsModule, PollutionLevelPipe, HighlightPollutionDirective],
   templateUrl: './pollution-list.html',
   styleUrl: './pollution-list.scss'

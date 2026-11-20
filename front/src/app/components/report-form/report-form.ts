@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject, signal } from '@angular/core';
 import {
   AbstractControl, FormControl, FormGroup, ReactiveFormsModule,
   ValidationErrors, Validators
@@ -9,6 +9,7 @@ import { PollutionService } from '../../services/pollution';
 import { Pollution, POLLUTION_TYPES } from '../../models/pollution';
 import { PollutionLevelPipe } from '../../pipes/pollution-level-pipe';
 import { HighlightPollutionDirective } from '../../directives/highlight-pollution-directive';
+import { HasUnsavedChanges } from '../../guards/unsaved-changes-guard';
 
 /** La date doit être valide et ne pas être dans le futur. */
 function validObservationDate(control: AbstractControl): ValidationErrors | null {
@@ -21,10 +22,11 @@ function validObservationDate(control: AbstractControl): ValidationErrors | null
 @Component({
   selector: 'app-report-form',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ReactiveFormsModule, RouterLink, ReportSummaryComponent, PollutionLevelPipe, HighlightPollutionDirective],
   templateUrl: './report-form.html'
 })
-export class ReportFormComponent implements OnInit {
+export class ReportFormComponent implements OnInit, HasUnsavedChanges {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly pollutionService = inject(PollutionService);
@@ -97,6 +99,7 @@ export class ReportFormComponent implements OnInit {
       next: (saved) => {
         this.isSaving.set(false);
         if (this.editId) {
+          this.declarationForm.markAsPristine(); // enregistré : le guard ne bloque plus
           void this.router.navigate(['/pollutions']);
         } else {
           this.savedPollution.set(saved);
@@ -107,6 +110,10 @@ export class ReportFormComponent implements OnInit {
         this.errorMessage.set("L'enregistrement a échoué, réessayez plus tard.");
       }
     });
+  }
+
+  hasUnsavedChanges(): boolean {
+    return this.declarationForm.dirty && !this.savedPollution();
   }
 
   newReport() {

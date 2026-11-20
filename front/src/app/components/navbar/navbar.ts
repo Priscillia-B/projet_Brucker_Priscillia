@@ -1,10 +1,11 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../../services/auth';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink, RouterLinkActive],
   templateUrl: './navbar.html',
   styleUrl: './navbar.scss'
@@ -13,8 +14,10 @@ export class NavbarComponent {
   private readonly router = inject(Router);
   readonly auth = inject(AuthService);
 
-  logout() {
+  async logout() {
+    const user = this.auth.currentUser();
     this.auth.logout();
-    void this.router.navigate(['/login']);
+    const left = await this.router.navigate(['/login']);
+    if (!left && user) this.auth.setUser(user);
   }
 }

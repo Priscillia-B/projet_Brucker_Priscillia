@@ -1,25 +1,54 @@
 import { Routes } from '@angular/router';
-import { SignupComponent } from './components/signup/signup';
-import { ReportFormComponent } from './components/report-form/report-form';
-import { PollutionListComponent } from './components/pollution-list/pollution-list';
-import { PollutionDetailComponent } from './components/pollution-detail/pollution-detail';
-import { UserListComponent } from './components/user-list/user-list';
-import { UserEditComponent } from './components/user-edit/user-edit';
-import { LoginComponent } from './components/login/login';
 import { authGuard, guestGuard } from './guards/auth-guard';
+import { unsavedChangesGuard } from './guards/unsaved-changes-guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
-  { path: 'login', component: LoginComponent, canActivate: [guestGuard] },
-  { path: 'signup', component: SignupComponent, canActivate: [guestGuard] },
+  {
+    path: 'login',
+    canMatch: [guestGuard],
+    loadComponent: () => import('./components/login/login').then(m => m.LoginComponent)
+  },
+  {
+    path: 'signup',
+    canMatch: [guestGuard],
+    loadComponent: () => import('./components/signup/signup').then(m => m.SignupComponent)
+  },
 
   // Pages réservées aux utilisateurs connectés
-  { path: 'declaration', component: ReportFormComponent, canActivate: [authGuard] },
-  { path: 'pollutions', component: PollutionListComponent, canActivate: [authGuard] },
-  { path: 'pollutions/:id', component: PollutionDetailComponent, canActivate: [authGuard] },
-  { path: 'pollutions/:id/edit', component: ReportFormComponent, canActivate: [authGuard] },
-  { path: 'users', component: UserListComponent, canActivate: [authGuard] },
-  { path: 'mon-compte', component: UserEditComponent, canActivate: [authGuard] },
+  {
+    path: 'declaration',
+    canMatch: [authGuard],
+    canDeactivate: [unsavedChangesGuard],
+    loadComponent: () => import('./components/report-form/report-form').then(m => m.ReportFormComponent)
+  },
+  {
+    path: 'pollutions',
+    canMatch: [authGuard],
+    loadComponent: () => import('./components/pollution-list/pollution-list').then(m => m.PollutionListComponent)
+  },
+  {
+    path: 'pollutions/:id',
+    canMatch: [authGuard],
+    loadComponent: () => import('./components/pollution-detail/pollution-detail').then(m => m.PollutionDetailComponent)
+  },
+  {
+    path: 'pollutions/:id/edit',
+    canMatch: [authGuard],
+    canDeactivate: [unsavedChangesGuard],
+    loadComponent: () => import('./components/report-form/report-form').then(m => m.ReportFormComponent)
+  },
+  {
+    path: 'users',
+    canMatch: [authGuard],
+    loadComponent: () => import('./components/user-list/user-list').then(m => m.UserListComponent)
+  },
+  {
+    path: 'mon-compte',
+    canMatch: [authGuard],
+    canDeactivate: [unsavedChangesGuard],
+    loadComponent: () => import('./components/user-edit/user-edit').then(m => m.UserEditComponent)
+  },
 
   { path: '**', redirectTo: 'login' }
 ];

@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { PollutionService } from '../../services/pollution';
@@ -10,6 +10,7 @@ import { HighlightPollutionDirective } from '../../directives/highlight-pollutio
 @Component({
   selector: 'app-pollution-detail',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [DatePipe, RouterLink, PollutionLevelPipe, HighlightPollutionDirective],
   templateUrl: './pollution-detail.html',
   styleUrl: './pollution-detail.scss'
