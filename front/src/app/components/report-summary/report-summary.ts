@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { mapUrl, Pollution } from '../../models/pollution';
@@ -8,6 +8,7 @@ import { HighlightPollutionDirective } from '../../directives/highlight-pollutio
 @Component({
   selector: 'app-report-summary',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [DatePipe, RouterLink, PollutionLevelPipe, HighlightPollutionDirective],
   templateUrl: './report-summary.html'
 })
