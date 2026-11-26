@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
 import { UserService } from '../../services/user';
 import { User } from '../../models/user';
-import { AuthService } from '../../services/auth';
+import { Store } from '@ngxs/store';
+import { AuthState } from '../../store/auth/auth.state';
 
 @Component({
   selector: 'app-user-list',
@@ -13,7 +14,8 @@ import { AuthService } from '../../services/auth';
 })
 export class UserListComponent implements OnInit {
   private readonly userService = inject(UserService);
-  readonly auth = inject(AuthService);
+  private readonly store = inject(Store);
+  readonly currentUser = this.store.selectSignal(AuthState.user);
 
   users = signal<User[]>([]);
   isLoading = signal(true);

@@ -6,7 +6,9 @@ import {
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router, RouterLink } from '@angular/router';
 import { UserService } from '../../services/user';
-import { AuthService } from '../../services/auth';
+import { Store } from '@ngxs/store';
+import { AuthState } from '../../store/auth/auth.state';
+import { Login, Logout } from '../../store/auth/auth.actions';
 import { UserUpdate } from '../../models/user';
 import { confirmDelete, showError } from '../../utils/alerts';
 import { HasUnsavedChanges } from '../../guards/unsaved-changes-guard';
@@ -29,7 +31,7 @@ function passwordsMatch(group: AbstractControl): ValidationErrors | null {
 export class UserEditComponent implements OnInit, HasUnsavedChanges {
   private readonly router = inject(Router);
   private readonly userService = inject(UserService);
-  private readonly auth = inject(AuthService);
+  private readonly store = inject(Store);
 
   userId = 0;
 
@@ -55,8 +57,7 @@ export class UserEditComponent implements OnInit, HasUnsavedChanges {
   );
 
   ngOnInit() {
-    // Toujours le compte connecté : impossible de modifier quelqu'un d'autre
-    this.userId = this.auth.currentUser()!.id;
+    this.userId = this.store.selectSnapshot(AuthState.user)!.id;
 
     this.userService.getUserById(this.userId).subscribe({
       next: (user) => {
@@ -85,7 +86,8 @@ export class UserEditComponent implements OnInit, HasUnsavedChanges {
     this.userService.updateUser(this.userId, payload).subscribe({
       next: (updated) => {
         this.isSaving.set(false);
-        this.auth.setUser(updated);
+        // Profil modifié : on remet à jour l'utilisateur dans le store
+        this.store.dispatch(new Login(updated));
         this.userForm.markAsPristine(); 
         void this.router.navigate(['/pollutions']);
       },
@@ -111,7 +113,7 @@ export class UserEditComponent implements OnInit, HasUnsavedChanges {
     this.userService.deleteUser(this.userId).subscribe({
       next: () => {
         this.userForm.markAsPristine();
-        this.auth.logout();
+        this.store.dispatch(new Logout());
         void this.router.navigate(['/login']);
       },
       error: () => {

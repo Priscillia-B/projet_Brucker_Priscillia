@@ -1,14 +1,19 @@
 import { inject } from '@angular/core';
 import { CanMatchFn, Router } from '@angular/router';
-import { AuthService } from '../services/auth';
+import { Store } from '@ngxs/store';
+import { AuthState } from '../store/auth/auth.state';
 
 export const authGuard: CanMatchFn = (_route, segments) => {
-  if (inject(AuthService).isLoggedIn()) return true;
+  const store = inject(Store);
+  const router = inject(Router);
+
+  if (store.selectSnapshot(AuthState.isAuthenticated)) return true;
+
   const returnUrl = '/' + segments.map(s => s.path).join('/');
-  return inject(Router).createUrlTree(['/login'], { queryParams: { returnUrl } });
+  return router.createUrlTree(['/login'], { queryParams: { returnUrl } });
 };
 
 export const guestGuard: CanMatchFn = () => {
-  if (!inject(AuthService).isLoggedIn()) return true;
+  if (!inject(Store).selectSnapshot(AuthState.isAuthenticated)) return true;
   return inject(Router).createUrlTree(['/pollutions']);
 };

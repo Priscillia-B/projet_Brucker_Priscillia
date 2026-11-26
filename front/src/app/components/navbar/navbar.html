@@ -5,7 +5,7 @@
   </a>
 
   <div class="nav-right">
-    @if (auth.currentUser(); as user) {
+    @if (isAuthenticated() && user(); as user) {
       <ul class="nav-links">
         <li>
           <a routerLink="/pollutions" routerLinkActive="active-link">
@@ -20,7 +20,7 @@
       </ul>
 
       <a class="nav-user" routerLink="/mon-compte" routerLinkActive="nav-user--active" title="Modifier mon compte ({{ user.login }})">
-        <i class="fa-solid fa-circle-user"></i><span>{{ user.prenom }}</span>
+        <i class="fa-solid fa-circle-user"></i><span>{{ username() }}</span>
       </a>
       <button type="button" class="nav-cta nav-cta--ghost" (click)="logout()">
         <i class="fa-solid fa-right-from-bracket"></i><span>Déconnexion</span>
