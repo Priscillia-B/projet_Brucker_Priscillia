@@ -3,7 +3,8 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { UserService } from '../../services/user';
-import { AuthService } from '../../services/auth';
+import { Store } from '@ngxs/store';
+import { Login } from '../../store/auth/auth.actions';
 
 @Component({
   selector: 'app-login',
@@ -15,7 +16,7 @@ import { AuthService } from '../../services/auth';
 })
 export class LoginComponent {
   private readonly userService = inject(UserService);
-  private readonly auth = inject(AuthService);
+  private readonly store = inject(Store);
   private readonly router = inject(Router);
 
   /** Page demandée avant la redirection par le guard (ex : /pollutions/3) */
@@ -42,7 +43,7 @@ export class LoginComponent {
     this.userService.login(this.credentials).subscribe({
       next: (user) => {
         this.isLoading.set(false);
-        this.auth.setUser(user);
+        this.store.dispatch(new Login(user));
         void this.router.navigateByUrl(this.safeReturnUrl());
       },
       error: (err: HttpErrorResponse) => {
